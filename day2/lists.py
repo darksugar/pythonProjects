@@ -2,6 +2,7 @@
 #list使用
 
 names = ["zZhangsan","lisi","wangwu","xiaoliu"]
+
 print(names)
 #names.clear()
 #names.pop()
