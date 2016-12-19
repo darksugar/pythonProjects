@@ -7,3 +7,4 @@ cmd_rst = os.popen('dir')
 cmd_rst = os.popen('dir').read()
 print(cmd_rst)
 
+#os.mkdir("new_file")
