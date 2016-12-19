@@ -1,22 +1,24 @@
 #Author:Ivor
-#list使用
+import copy
 
-names = ["zZhangsan","lisi",['www','bbbb'],"wangwu","xiaoliu"]
+person = ["name",['saving',1000]]
 
-#names.copy() 浅copy,只复制第一层
-names2 = names.copy()
-
-#import copy;copy.deepcopy(),深copy，完全复制
-
-#import copy;copy.copy(),也是浅copy
+#浅copy的三种方式
+names2 = copy.copy(person)
+names2 = person[:]
+names2 = list(person)
 
 #列表指向同一块内存
 #names2 = names
 
-#
-names[1] = 'aaaaa'
-names[2][0] = 'ccccc'
+#可以用作联合账号
+p1 = person[:]
+p2 = list(person)
 
+p1[0]='alex'
+p2[0]='fengjie'
 
-print(names)
-print(names2)
+p1[1][1]=500
+
+print(p1)
+print(p2)
