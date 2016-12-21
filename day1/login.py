@@ -14,7 +14,7 @@ with open("lock.txt","a+") as ff:
     for i in ff:
         lock_list.append(i)
 #输入用户名
-username = input("Please input your username:")
+username = input("Please input your \033[31;1musername\033[0m:")
 #判断用户是否锁定，没锁定则继续，锁定直接退出
 if  username not in lock_list:
     #判断用户是否存在
@@ -22,7 +22,7 @@ if  username not in lock_list:
         #开始验证密码，输入错误3次则锁定用户，写入文件
         while count > 0:
             #输入密码
-            password = input("Please input your password:")
+            password = input("Please input your \033[32;1mpassword\033[0m:")
             #判断密码是否正确，正确则登录成功，错误则继续尝试，并且尝试次数-1
             if user_list[username] == password:
                 print("login success..")
