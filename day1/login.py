@@ -10,8 +10,8 @@ with open("user.txt","r") as f:
     for k,v in (i.strip().split(" ") for i in f):
         user_list[k] = v
 #将锁定用户从文件中导入列表
-with open("lock.txt","a+") as ff:
-    for i in ff:
+ff = open("lock.txt","a+")
+for i in ff:
         lock_list.append(i)
 #输入用户名
 username = input("Please input your \033[31;1musername\033[0m:")
@@ -38,3 +38,4 @@ if  username not in lock_list:
         print("Wrong username...")
 else:
     print("The user is locked")
+ff.close()
