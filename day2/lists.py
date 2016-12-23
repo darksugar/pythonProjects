@@ -3,7 +3,6 @@
 
 names = ["zZhangsan","lisi","wangwu","xiaoliu"]
 
-print(names)
 #names.clear()
 #names.pop()
 #names.append("xxxxx")
@@ -13,5 +12,5 @@ print(names)
 #names.insert(1,"aaaa")
 #names.reverse()
 #names.remove("lisi")
-#names.sort()
+names.sort()
 print(names)
