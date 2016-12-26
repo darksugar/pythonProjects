@@ -4,14 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/day2/shopping_homework/user.py" line="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e090e6d5-6155-4736-acb3-7e12cb74ad5a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/day2/shopping_homework/products_info.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/day2/shopping_homework/user.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/day3/file.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/day3/set.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/day2/shopping_better.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="e090e6d5-6155-4736-acb3-7e12cb74ad5a" name="Default" comment="" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -62,8 +55,8 @@
       <file leaf-file-name="user.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/day2/shopping_homework/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+            <state relative-caret-position="76">
+              <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -628,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1482476341637</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="xxxx">
+      <created>1482742379707</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1482742379707</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -968,8 +968,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/day2/shopping_homework/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+        <state relative-caret-position="76">
+          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
           <folding />
         </state>
       </provider>
