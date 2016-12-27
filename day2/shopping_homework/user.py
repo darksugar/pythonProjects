@@ -26,10 +26,10 @@ user_list = []
 while True:
     for index,item in enumerate(product_list):
         print(index,item[0],item[1])
-    choice = input("Please input your choice:")
+    choice = input("Please input your choice,exit input [q]:")
     if choice == 'q':
-        print("your balance is %s" % salary)
-        print("your good list is %s" % user_list)
+        print("\033[32;1myour balance is %s\033[0m" % salary)
+        print("\033[32;1myour good list is %s\033[0m" % user_list)
         break
     if choice.isdigit():
         choice = int(choice)
@@ -38,14 +38,15 @@ while True:
             if  salary > price:
                 salary -= price
                 user_list.append(product_list[choice])
+                print("\033[32;1myour balance is %s\033[0m" % salary)
             else:
-                print("your money is not enough...")
+                print("\033[31;1myour money is not enough...\033[0m")
         else:
-            print("Invalid numbers...")
+            print("\033[31;Invalid numbers...\033[0m")
     else:
-        print("Wrong choice,please input a number...")
+        print("\033[31;Wrong choice,please input a number...\033[0m")
 
-#存储剩余余额
+#存储剩余余额                                                         +
 with open ("user_info.txt","w") as f:
     f.write("{user} {salary}" .format(user=username,salary=salary))
 
