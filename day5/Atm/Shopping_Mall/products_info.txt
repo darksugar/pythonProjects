@@ -1,0 +1,6 @@
+iphone 5888
+bike 899
+book 120
+watch 40000
+computer 18999
+girlfriend 130000
