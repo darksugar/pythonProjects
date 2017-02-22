@@ -1,23 +1,38 @@
 #Author:Ivor
+product_list = [
+    ["iphone", 5999],
+    ["bike", 899],
+    ["book", 120],
+    ["coffee", 31]
+]
+goods =[]
+salary = input("please input your salary:")
+if salary.isdigit():
+    salary = int(salary)
+    while True:
+        for index,item in enumerate(product_list):
+            print(index,item)
+        user_choice = input(">>>")
+        if user_choice.isdigit():
+            user_choice = int(user_choice)
+            if user_choice >= 0 and user_choice < len(product_list):
+                if salary > product_list[user_choice][1]:
+                    salary -= product_list[user_choice][1]
+                    goods.append(product_list[user_choice])
+                    print("your balance is:",salary)
+                else:
+                    print("your money is not enough..")
+            else:
+                print("in valid number!")
+        elif user_choice == 'q':
+            print("your balance is ",salary)
+            print("your shop list is ",goods)
+            break
+        else:
+            print("invalid choice")
+else:
+    print("invalid value!")
 
-salary = int(input("Please input your Salary...:"))
-goods = [['1','iphone',5999],['2','coffee',50],['3','bike',800],['4','python book',101],['5','girlfriend',19999]]
-l= []
 
-while True:
-    for i in goods:
-        n=0
-        info = '''
-    ----------------------
-    {id}  {goods}  {price}'''.format(id=i[0],goods=i[1],price=i[2])
-        n += n
-        print(info)
-    choose = int(input("which one?:"))
-    if salary > goods[choose-1][2]:
-        salary = salary - goods[choose-1][2]
-        l.append(goods[choose - 1])
-    else:
-        print("your money is not enough..")
-        break
-print("your money is..",salary)
-print("your good is..",l)
+
+
