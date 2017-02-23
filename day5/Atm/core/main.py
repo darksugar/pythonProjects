@@ -93,10 +93,11 @@ def transfer(acc_data):
         :param acc_data:
         :return:
         '''
-    account_data = accounts.load_current_balance(acc_data['account_id'])
+    roll_out_account_data = accounts.load_current_balance(acc_data['account_id'])
+    # print(roll_out_account_data)
     current_balance = ''' --------- BALANCE INFO --------
             Credit :    %s
-            Balance:    %s''' % (account_data['credit'], account_data['balance'])
+            Balance:    %s''' % (roll_out_account_data['credit'], roll_out_account_data['balance'])
     print(current_balance)
     back_flag = False
     while not back_flag:
@@ -106,16 +107,19 @@ def transfer(acc_data):
             continue
         is_exist = accounts.load_account_is_exist(transfer_id)
         if is_exist:
+            roll_in_account_data = accounts.load_current_balance(transfer_id)
             transfer_amount = input("\033[33;1mInput transfer amount(return input(b)):\033[0m").strip()
+            if transfer_id == 'b':
+                back_flag = True
+                continue
             if len(transfer_amount) > 0 and transfer_amount.isdigit():
-                roll_out_id = account_data['account_id']
-                new_balance = transaction.make_transaction(trans_logger, account_data, 'transfer_roll_out', roll_out_id)
+                roll_out_id = roll_out_account_data['id']
+                new_balance = transaction.make_transaction(trans_logger, roll_out_account_data, 'transfer_roll_out', transfer_amount)
                 if new_balance:
-                    print('''\033[35;1mNew Balance:%s\033[0m''' % (new_balance['balance']))
-                new_balance = transaction.make_transaction(trans_logger, account_data, 'transfer_roll_in', transfer_amount)
-                if new_balance:
-                    print('''\033[35;1mNew Balance:%s\033[0m''' % (new_balance['balance']))
-
+                    print('''\033[35;1m%s New Balance:%s\033[0m''' % (roll_out_id,new_balance['balance']))
+                    new_balance = transaction.make_transaction(trans_logger, roll_in_account_data, 'transfer_roll_in', transfer_amount)
+                    if new_balance:
+                        print('''\033[35;1m%s ew Balance:%s\033[0m''' % (transfer_id,new_balance['balance']))
             else:
                 print('\033[31;1m[%s] is not a valid amount, only accept integer!\033[0m' % transfer_amount)
 
