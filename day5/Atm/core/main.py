@@ -27,14 +27,14 @@ user_data = {
     'account_data':None
 
 }
-
+@login_required
 def account_info(acc_data):
     # print(user_data['account_data'])
-    print("————Account info of %s ————" % user_data["account_id"])
-    for key,value in user_data['account_data'].items():
+    account_data = accounts.load_current_balance(acc_data["account_id"])
+    print("————Account info of %s ————" % account_data["id"])
+    for key,value in account_data.items():
         print(key,":",value)
-    print("————Account info of %s ————" % user_data["account_id"])
-
+    print("————Account info of %s ————" % account_data["id"])
 @login_required
 def repay(acc_data):
     '''
@@ -122,9 +122,6 @@ def transfer(acc_data):
                         print('''\033[35;1m%s ew Balance:%s\033[0m''' % (transfer_id,new_balance['balance']))
             else:
                 print('\033[31;1m[%s] is not a valid amount, only accept integer!\033[0m' % transfer_amount)
-
-
-
 def pay_check(acc_data):
     pass
 def logout(acc_data):
@@ -159,7 +156,6 @@ def interactive(acc_data):
             # print('accdata',acc_data)
             #acc_data['is_authenticated'] =False
             menu_dic[user_option](acc_data)
-
         else:
             print("\033[31;1mOption does not exist!\033[0m")
 def run():
@@ -171,3 +167,4 @@ def run():
     if user_data['is_authenticated']:
         user_data['account_data'] = acc_data
         interactive(user_data)
+

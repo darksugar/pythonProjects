@@ -7,13 +7,11 @@ from core import logger
 import json
 import time
 
-
-
 def login_required(func):
     "验证用户是否登录"
 
     def wrapper(*args,**kwargs):
-        #print('--wrapper--->',args,kwargs)
+        # print('--wrapper--->',args,kwargs)
         if args[0].get('is_authenticated'):
             return func(*args,**kwargs)
         else:
