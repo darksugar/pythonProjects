@@ -22,8 +22,10 @@ def update():
     new_staff_table = []
     for employee in staff_table:
         if setting.row.get(where[0]):
-            if employee[setting.row[where[0]]] == where[2]:
-                employee[setting.row[update[-3]]] = update[-1]
+            # data = employee[setting.row[where[0]]] + where[1] + where[2]
+            # if eval(data)
+                if employee[setting.row[where[0]]] == where[2]:
+                    employee[setting.row[update[-3]]] = update[-1]
         new_staff_table.append(employee)
     db.update_staff(new_staff_table)
     print("\033[32;1mStaff_table update sucdessed!\033[0m")
