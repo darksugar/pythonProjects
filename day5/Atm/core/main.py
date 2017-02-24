@@ -118,8 +118,7 @@ def transfer(acc_data):
                 if new_balance:
                     print('''\033[35;1m%s New Balance:%s\033[0m''' % (roll_out_id,new_balance['balance']))
                     new_balance = transaction.make_transaction(trans_logger, roll_in_account_data, 'transfer_roll_in', transfer_amount)
-                    if new_balance:
-                        print('''\033[35;1m%s ew Balance:%s\033[0m''' % (transfer_id,new_balance['balance']))
+                    print('''\033[35;1m%s New Balance:%s\033[0m''' % (transfer_id,new_balance['balance']))
             else:
                 print('\033[31;1m[%s] is not a valid amount, only accept integer!\033[0m' % transfer_amount)
 def pay_check(acc_data):

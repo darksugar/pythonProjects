@@ -18,7 +18,8 @@ def change_credit():
         account = input("\033[33;1mInput the account your want to change:\033[0m")
         if account.isdigit():
             if int(account) > -account_data["balance"]:
-                pass
+
+                print("\033[32;1m%s's account is changed to %s\033[0m" % (account_id,account))
             else:
                 print('\033[31;1m[%s] is less than your balance,please repay your bill first!\033[0m' % account)
         else:
