@@ -1,8 +1,9 @@
 #!_*_coding:utf-8_*_
 #__author__:"Alex Li"
 
-
+import time
 import json
+import datetime
 acc_dic = {
     'id': 1234,
     'password': 'abc',
@@ -15,3 +16,5 @@ acc_dic = {
 }
 
 print(json.dumps(acc_dic))
+print(time.strftime('%Y-%m-%d',time.localtime(time.time())))
+print(time.strftime('%Y-%m-%d', datetime.localtime(time.time())) + datetime.timedelta(days=365))

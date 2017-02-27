@@ -60,3 +60,12 @@ def file_execute(sql,**kwargs):
                 with open(account_file, 'w') as f:
                     acc_data = json.dump(account_data, f)
                 return True
+
+def add_account(acc_data):
+    conn_params = settings.DATABASE
+    db_path = '%s/%s' % (conn_params['path'], conn_params['name'])
+    name = acc_data['id']
+    account_file = "%s/%s.json" % (db_path, name)
+    with open(account_file, 'w') as f:
+        acc_data = json.dump(acc_data, f)
+    return True

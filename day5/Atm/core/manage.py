@@ -3,6 +3,9 @@ from core import auth
 from core import accounts
 from core import logger
 from core import accounts
+import time
+from core import db_handler
+import datetime
 from core import transaction
 from core.auth import login_required
 
@@ -36,7 +39,25 @@ def change_credit():
 
 
 def add_account():
-    pass
+    acc_id = input("Please input the new account id:")
+    exists = accounts.load_current_balance(acc_id)
+    if exists:
+        print("%s is exist!" % acc_id)
+        return
+    acc_passwd = input("Please input the password of %s:" % acc_id)
+    credit = input("Please input the credit of %s:" % acc_id)
+    acc_data = {}
+    acc_data['id'] = acc_id
+    acc_data['password'] = acc_passwd
+    acc_data['credit'] = credit
+    acc_data['balance'] = 0
+    acc_data['enroll_date'] = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    acc_data['expire_date'] = '2021-01-01'
+    acc_data['pay_day'] = '22'
+    acc_data['status'] = 0
+    db_handler.add_account(acc_data)
+    if db_handler:
+        print("Account %s is created!" % acc_id)
 
 def freeze_account():
     account_id = input("Please input the account id:")
