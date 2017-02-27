@@ -1,3 +1,0 @@
-ivor abc123
-dark abc123
-spring abc123

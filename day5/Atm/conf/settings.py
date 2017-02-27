@@ -26,5 +26,6 @@ TRANSACTION_TYPE = {
     'transfer_roll_out':{'action':'minus', 'interest':0.05},
     'transfer_roll_in':{'action':'plus', 'interest':0},
     'consume':{'action':'minus', 'interest':0},
+    'pay_check':{'action':'minus', 'interest':0}
 
 }

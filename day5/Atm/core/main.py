@@ -25,7 +25,6 @@ user_data = {
     'account_id':None,
     'is_authenticated':False,
     'account_data':None
-
 }
 @login_required
 def account_info(acc_data):
@@ -121,8 +120,13 @@ def transfer(acc_data):
                     print('''\033[35;1m%s New Balance:%s\033[0m''' % (transfer_id,new_balance['balance']))
             else:
                 print('\033[31;1m[%s] is not a valid amount, only accept integer!\033[0m' % transfer_amount)
-def pay_check(acc_data):
-    pass
+def pay_check(user_list,bill):
+    acc_data = auth.acc_login(user_data,access_logger)
+    if user_data['is_authenticated']:
+        status = transaction.make_transaction(trans_logger, acc_data, 'pay_check', bill)
+        if status:
+            return True
+
 def logout(acc_data):
     exit()
 def interactive(acc_data):

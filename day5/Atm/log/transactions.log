@@ -28,3 +28,10 @@
 2017-02-24 11:25:26,996 - transaction - INFO - account:ivor   action:transfer_roll_in    amount:800.0   interest:0.0
 2017-02-24 11:27:25,190 - transaction - INFO - account:ivor   action:transfer_roll_out    amount:5000.0   interest:250.0
 2017-02-24 11:27:25,205 - transaction - INFO - account:liteng   action:transfer_roll_in    amount:5000.0   interest:0.0
+2017-02-27 16:19:32,014 - transaction - INFO - account:ivor   action:withdraw    amount:10700.0   interest:535.0
+2017-02-27 16:19:37,577 - transaction - INFO - account:ivor   action:withdraw    amount:10000.0   interest:500.0
+2017-02-27 16:19:41,296 - transaction - INFO - account:ivor   action:withdraw    amount:3000.0   interest:150.0
+2017-02-27 16:19:43,936 - transaction - INFO - account:ivor   action:withdraw    amount:200.0   interest:10.0
+2017-02-27 16:19:54,483 - transaction - INFO - account:ivor   action:repay    amount:14386.0   interest:0.0
+2017-02-27 16:19:58,483 - transaction - INFO - account:ivor   action:repay    amount:12000.0   interest:0.0
+2017-02-27 16:21:03,602 - transaction - INFO - account:ivor   action:pay_check    amount:6787.0   interest:0.0

@@ -49,7 +49,7 @@ def add_account():
     acc_data = {}
     acc_data['id'] = acc_id
     acc_data['password'] = acc_passwd
-    acc_data['credit'] = credit
+    acc_data['credit'] = int(credit)
     acc_data['balance'] = 0
     acc_data['enroll_date'] = time.strftime('%Y-%m-%d',time.localtime(time.time()))
     acc_data['expire_date'] = '2021-01-01'
