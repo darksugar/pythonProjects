@@ -17,6 +17,7 @@ LOG_LEVEL = logging.INFO
 LOG_TYPES = {
     'transaction': 'transactions.log',
     'access': 'access.log',
+    'manage':'management.log'
 }
 
 TRANSACTION_TYPE = {

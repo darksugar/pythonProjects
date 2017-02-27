@@ -38,3 +38,6 @@ def make_transaction(log_obj,account_data,tran_type,amount,**others):
         return account_data
     else:
         print("\033[31;1mTransaction type [%s] is not exist!\033[0m" % tran_type)
+
+def make_manage(log_obj,account,manage_type):
+    pass

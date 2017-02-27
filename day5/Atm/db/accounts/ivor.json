@@ -1,1 +1,1 @@
-{"expire_date": "2021-01-01", "password": "abc", "balance": 10709, "enroll_date": "2016-01-02", "pay_day": 22, "status": 0, "id": "ivor", "credit": 15000}
+{"password": "abc", "id": "ivor", "expire_date": "2021-01-01", "credit": "15000", "enroll_date": "2016-01-02", "status": 0, "balance": 10709, "pay_day": 22}

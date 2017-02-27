@@ -7,9 +7,13 @@ from core import transaction
 from core.auth import login_required
 
 
+manage_log = logger.logger('manage')
+
+
 def change_credit():
     account_id = input("Please input the account id:")
     account_data = accounts.load_current_balance(account_id)
+    old_credit = account_data['credit']
     if account_data:
         current_balance = ''' --------- BALANCE INFO --------
                Credit :    %s
@@ -18,7 +22,10 @@ def change_credit():
         account = input("\033[33;1mInput the account your want to change:\033[0m")
         if account.isdigit():
             if int(account) > -account_data["balance"]:
-
+                account_data['credit'] = account
+                accounts.dump_account(account_data)
+                manage_log.info("account:%s   action:change_credit    old_credit:%s   new_credit:%s" %
+                          (account_data['id'], old_credit,account_data['credit']) )
                 print("\033[32;1m%s's account is changed to %s\033[0m" % (account_id,account))
             else:
                 print('\033[31;1m[%s] is less than your balance,please repay your bill first!\033[0m' % account)
@@ -32,10 +39,54 @@ def add_account():
     pass
 
 def freeze_account():
-    pass
+    account_id = input("Please input the account id:")
+    account_data = accounts.load_current_balance(account_id)
+    if account_data:
+        current_status = ''' --------- Account INFO --------
+               Current Status : %s
+               Normal : 0
+               Freeze : 1''' % (account_data['status'])
+        print(current_status)
+        if account_data['status'] == 1:
+            print("The account is already frozen!")
+        else:
+            user_option = input("Please confirm to freeze the account[y]: ")
+            if user_option == 'y':
+                account_data['status'] = 1
+                accounts.dump_account(account_data)
+                manage_log.info("account:%s   action:freeze_account" %
+                          (account_data['id']))
+                print("Account %s is freeze now!" % account_id)
+            else:
+                print("Nothing changed!")
+    else:
+        print("The account is not exists!")
+
 
 def unfreeze_account():
-    pass
+    account_id = input("Please input the account id:")
+    account_data = accounts.load_current_balance(account_id)
+    if account_data:
+        current_status = ''' --------- Account INFO --------
+               Current Status : %s
+               Normal : 0
+               Freeze : 1''' % (account_data['status'])
+        print(current_status)
+        if account_data['status'] == 0:
+            print("The account is Normal,no need to unfreeze!")
+        else:
+            user_option = input("Please confirm to unfreeze the account[y]: ")
+            if user_option == 'y':
+                account_data['status'] = 0
+                accounts.dump_account(account_data)
+                manage_log.info("account:%s   action:unfreeze_account" %
+                          (account_data['id']))
+                print("Account %s is Normal now!" % account_id)
+            else:
+                print("Nothing changed!")
+    else:
+        print("The account is not exists!")
+
 
 def manage():
     '''
