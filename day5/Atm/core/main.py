@@ -127,6 +127,13 @@ def pay_check(user_list,bill):
         if status:
             return True
 
+def order_history():
+    month = input("Please input the bill month:")
+    if month.isdigit():
+        pass
+
+
+
 def logout(acc_data):
     exit()
 def interactive(acc_data):
@@ -148,7 +155,7 @@ def interactive(acc_data):
         '2': repay,
         '3': withdraw,
         '4': transfer,
-        '5': pay_check,
+        '5': order_history,
         '6': logout,
     }
     exit_flag = False
