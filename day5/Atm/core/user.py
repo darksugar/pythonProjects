@@ -8,8 +8,10 @@ from core import main
 #提取商品信息
 product_list = []
 user_list = []
+products_file = "%s/db/products_info.txt" % base_dir
 
-with open("products_info.txt") as f:
+
+with open(products_file) as f:
     for item in f:
         item = item.strip().split(" ")
         product_list.append(item)
@@ -70,23 +72,23 @@ def check_up():
 
 
 #打印商品信息,开始循环
-
-while True:
-    menu = '''
-    1. 进入商城购物
-    2. 操作购物车
-    3. 结账
-    q. 退出
-    '''
-    menu_dic= {
-        "1":the_mall,
-        "2":order,
-        "3":check_up,
-        "q":exit
-    }
-    print(menu)
-    choice = input("请输入对应编号:")
-    if menu_dic.get(choice):
-        menu_dic[choice]()
+def run():
+    while True:
+        menu = '''
+        1. 进入商城购物
+        2. 操作购物车
+        3. 结账
+        q. 退出
+        '''
+        menu_dic= {
+            "1":the_mall,
+            "2":order,
+            "3":check_up,
+            "q":exit
+        }
+        print(menu)
+        choice = input("请输入对应编号:")
+        if menu_dic.get(choice):
+            menu_dic[choice]()
 
 

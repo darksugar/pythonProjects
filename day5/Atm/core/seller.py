@@ -1,8 +1,15 @@
 #Authon Ivor
+import sys
+import os
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(base_dir)
+from core import main
+
+products_file = "%s/db/products_info.txt" % base_dir
 
 #读取商品信息
 product_list = []
-with open("products_info.txt","r") as f:
+with open(products_file,"r") as f:
     for i in f:
         i = i.strip().split(" ")
         product_list.append(i)
