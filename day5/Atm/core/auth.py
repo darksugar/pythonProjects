@@ -56,17 +56,18 @@ def acc_auth2(account,password):
     data = db_api("select * from accounts where account=%s" % account)
 
 
-    if data['password'] == password:
-        exp_time_stamp = time.mktime(time.strptime(data['expire_date'], "%Y-%m-%d"))
-        if data['status'] == 0:
-            if time.time() > exp_time_stamp:
-                print("\033[31;1mAccount [%s] has expired,please contact the back to get a new card!\033[0m" % account)
-            else:  # passed the authentication
-                return data
+    if data:
+        if data['password'] == password:
+            exp_time_stamp = time.mktime(time.strptime(data['expire_date'], "%Y-%m-%d"))
+            if data['status'] == 0:
+                if time.time() > exp_time_stamp:
+                    print("\033[31;1mAccount [%s] has expired,please contact the back to get a new card!\033[0m" % account)
+                else:  # passed the authentication
+                    return data
+            else:
+                print("\033[31;1mThe Account is frozen!!!\033[0m")
         else:
-            print("\033[31;1mThe Account is frozen!!!\033[0m")
-    else:
-        print("\033[31;1mAccount ID or password is incorrect!\033[0m")
+            print("\033[31;1mAccount ID or password is incorrect!\033[0m")
 
 def acc_login(user_data,log_obj):
     '''

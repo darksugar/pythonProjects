@@ -12,6 +12,7 @@ from core import logger
 from core import accounts
 from core import transaction
 from core.auth import login_required
+from conf import settings
 import time
 
 #transaction logger
@@ -127,11 +128,26 @@ def pay_check(user_list,bill):
         if status:
             return True
 
-def order_history():
+def order_history(acc_data):
     month = input("Please input the bill month:")
+    bill = 0
     if month.isdigit():
-        pass
-
+        bill_file = "%s/log/transactions.log" % settings.BASE_DIR
+        with open(bill_file,'r') as f:
+            for i in f:
+                i = i.strip().split(" ")
+                user = i[7].strip().split(":")
+                if user[1] == acc_data["account_id"]:
+                    if i[-8] == "action:pay_check":
+                        date = i[0].strip().split("-")
+                        if int(month) == int(date[1]):
+                            # action = i[-8].strip().split(":")
+                            amount = i[-4].strip().split(":")
+                            bill += float(amount[1])
+        if bill >0 :
+            print("您%s月的消费是%f元！" % (month,bill))
+        else:
+            print("您%s月没有消费!" % month)
 
 
 def logout(acc_data):
