@@ -1,12 +1,12 @@
 #Authon Ivor
 def addition(a):
-    return str(float(a[0])+float(a[1]))
+    return str(float(a[0].strip())+float(a[1].strip()))
 def subtraction(a):
-    return str(float(a[0])-float(a[1]))
+    return str(float(a[0].strip())-float(a[1].strip()))
 def multiplication(a):
-    return str(float(a[0])*float(a[1]))
+    return str(float(a[0].strip())*float(a[1].strip()))
 def division(a):
-    return str(float(a[0])/float(a[1]))
+    return str(float(a[0].strip())/float(a[1].strip()))
 # import re
 # a = '1 - 2 * ( (60-30 +(-40/5) * (9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )'
 # b = re.search(r'\([^()]+\)',a).group()
@@ -23,34 +23,17 @@ def division(a):
 # print(f)
 
 import re
-a = '1-2*((60-30+(9-2*5/3+7/3*99/4*2998+10*568/14))-(-4*3)/(16-3*2))'
+a = '1 - 2 * ( (60-30 + (9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )'
 #a = '1 - 2 * ( (60-30 +(-40/5) * (9-2*5/3 + 7 /3*99/4*2998 +10 * 568/14 )) - (-4*3)/ (16-3*2) )'
-while True:
-    b = re.search(r'\([^()]+\)',a)
-    if b:
-        c = re.search('(\d+\.\d+|\d+)/(\d+\.\d+|\d+)',b.group())
-        if c:
-            d = division(c.group().split("/"))
-            a = re.sub(c.group(),d,a)
-            print(a)
-            continue
-        c = re.search('(\d+\.\d+|\d+)\*(\d+\.\d+|\d+)',b.group())
-        if c:
-            d = multiplication(c.group().split("*"))
-            a = re.sub(c.group().replace('*','\*'),d,a)
-            print(a)
-            continue
-        c = re.search('(\d+\.\d+|\d+)\+(\d+\.\d+|\d+)',b.group())
-        if c:
-            d = addition(c.group().split("+"))
-            a = re.sub(c.group().replace('+','\+'),d,a)
-            a = re.sub(c.group(), d, a)
-            print(a)
-            continue
-        c = re.search('(\d+\.\d+|\d+)\-(\d+\.\d+|\d+)',b.group())
-        if c:
-            d = subtraction(c.group().split("-"))
-            a = re.sub(c.group().replace('-','\-'),d,a)
-            a = re.sub(c.group(),d,a)
-            print(a)
-            continue
+#1
+b = re.search(r'\([^()]+\)',a)
+print(b.group())
+
+c = re.search('\s*\d+\.?\d*\s*\*\s*\d+\.?\d*\s*\s*',b.group())
+print(c.group())
+
+d = multiplication(c.group().split("*"))
+print(d)
+
+a = a.replace(c.group(),d)
+print(a)
