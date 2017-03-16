@@ -23,21 +23,21 @@ def hexdigest(self, *args, **kwargs): # real signature unknown
 import hashlib
 # ######## md5 ########
 hash = hashlib.md5()
-hash.update('admin')
+hash.update(b'admin')
 print(hash.hexdigest())
 # ######## sha1 ########
 hash = hashlib.sha1()
-hash.update('admin')
+hash.update(b'admin')
 print(hash.hexdigest())
 # ######## sha256 ########
 hash = hashlib.sha256()
-hash.update('admin')
+hash.update(b'admin')
 print(hash.hexdigest())
 # ######## sha384 ########
 hash = hashlib.sha384()
-hash.update('admin')
+hash.update(b'admin')
 print(hash.hexdigest())
 # ######## sha512 ########
 hash = hashlib.sha512()
-hash.update('admin')
+hash.update(b'admin')
 print(hash.hexdigest())

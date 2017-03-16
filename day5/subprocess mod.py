@@ -22,8 +22,25 @@ res
 b'total 0\ndrwxr-xr-x 12 alex staff 408 Nov 2 11:05 OldBoyCRM\n'
 
 #上面那些方法，底层都是封装的subprocess.Popen
+res.poll()
+# Check if child process has terminated. Returns returncode
+res.wait()
+# Wait for child process to terminate. Returns returncode attribute.
+
+res.terminate()
+# 杀掉所启动进程
+res.communicate()
+# 等待任务结束
+# stdin 标准输入
+# stdout 标准输出
+# stderr 标准错误
+res.pid
+# The process ID of the child process.
+
+#例子
 p = subprocess.Popen("df -h|grep disk",stdin=subprocess.PIPE,stdout=subprocess.PIPE,shell=True)
 p.stdout.read()
+b'/dev/disk1 465Gi 64Gi 400Gi 14% 16901472 104938142 14% /\n'
 
 # 可用参数：
 # •args：shell命令，可以是字符串或者序列类型（如：list，元组）
