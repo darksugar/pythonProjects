@@ -1,7 +1,4 @@
 #Authon Ivor
-
-
-
 class F1(object):
     def a1(self):
         print("F1a1")
