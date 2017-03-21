@@ -21,14 +21,16 @@ def authtication(auth_type):
 
 def index():
     print("this is index!")
-@authtication(auth_type = "local")
+@authtication(auth_type = "local") #bbs = authtication(auth_type="ldap")(home("dark"))
 def home(name):
     print("this is home!")
     print("Hi,%s" % name )
 
+
 @authtication(auth_type = "ldap")
 def bbs():
     print("this is bbs!")
+
 
 index()
 home("haha")

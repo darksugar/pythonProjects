@@ -13,6 +13,7 @@ def timer(func):
 def test1():
     time.sleep(1.5)
     print("I'm in the test1 !")
+
 @timer
 def test2(name,age):
     time.sleep(0.5)
