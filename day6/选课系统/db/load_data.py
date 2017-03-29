@@ -5,10 +5,11 @@ base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(base_dir)
 from core.basic import School,Course,Classes,Teacher,Student
 import pickle
+file = base_dir + "/db/backup.txt"
 
 def load():
-    if os.path.isfile("backup.txt"):
-        with open("backup.txt","rb") as f:
+    if os.path.isfile(file):
+        with open(file,"rb") as f:
             data = pickle.load(f)
     else:#初始化数据
         #创建学校
@@ -60,3 +61,7 @@ def load():
             "student_list":student_list
         }
     return data
+
+def dump(data):
+    with open(file,"wb") as f:
+        pickle.dump(data,f)
