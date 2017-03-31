@@ -26,7 +26,11 @@ class Flight(object):
         status = status
         print("666")
 
+    @flight_status.deleter
+    def flight_status(self):
+        print("it's delete")
+
 f = Flight("CA980")
 f.flight_status
-f.flight_status = 2
-f.flight_status
+f.flight_status = 2  #调用@flight_status.setter
+del f.flight_status  #调用@flight_status.deleter

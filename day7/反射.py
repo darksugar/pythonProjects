@@ -1,6 +1,6 @@
 #Authon Ivor
 def bark(self):
-    print("%s is yelling!" )
+    print("%s   is yelling!" % self.name )
 
 
 class Dog(object):
@@ -11,22 +11,13 @@ class Dog(object):
     def eat(self):
         print("%s is eating!" % self.name)
 
-d = Dog("WangWang")
-choice = input(">>>:").strip()
+d= Dog("Wangwang")
+choice = input(">>>:")
 
-print(hasattr(d,choice))
 if hasattr(d,choice):
     func = getattr(d,choice)
-    setattr(d,choice,'hanghang')
-    print(func)
-    d.eat()
-
+    func()
 else:
-    pass
-    # setattr(d,choice,bark)
-    # #choice = aaa
-    # d.aaa(d)
-
-
-# if choice == 'eat':
-#     d.eat()
+    setattr(d,choice,bark) #d.choice = bark
+    func = getattr(d,choice)
+    func(d)
