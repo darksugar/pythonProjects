@@ -3,6 +3,7 @@ import socket
 import json
 import optparse
 import hashlib
+import os
 __author__ = 'Ivor'
 
 
@@ -59,7 +60,7 @@ class FTPClient(object):
         if response.get('status_code') == 254:
             print("Passed authentication!")
             self.user = username
-            self.path = "/%s" % self.user
+            self.path = self.user
             return True
         else:
             print(response.get('status_msg'))
@@ -75,7 +76,7 @@ class FTPClient(object):
         if self.authenticate():
             print("-----start interactive-----")
             while True:
-                choice = input("[%s][%s]>>>:" % (self.user,self.path)).strip()
+                choice = input("[%s]>>>:" % (self.user)).strip()
                 if len(choice) == 0: continue
                 cmd_list = choice.split()
                 if hasattr(self ,"_%s" % cmd_list[0]):
@@ -91,7 +92,7 @@ class FTPClient(object):
         if '--md5' in cmd_list:
             return True
 
-    def show_progess(self,total):
+    def show_progress(self,total):
         receive_size = 0
         current_percent = 0
         while receive_size < total:
@@ -119,7 +120,7 @@ class FTPClient(object):
             file_size = response.get("file_size")
             file_name = cmd_list[1]
             file_obj = open(file_name, 'wb')
-            process = self.show_progess(file_size)
+            process = self.show_progress(file_size)
             process.__next__()
             if self.md5_check(cmd_list):
                 md5_obj = hashlib.md5()
@@ -152,6 +153,58 @@ class FTPClient(object):
             file_obj.close()
         else:
             print(response.get('status_msg'))
+
+    def _put(self,cmd_list):
+        if len(cmd_list) < 2: return print("Need a filename")
+        if os.path.isfile(cmd_list[1]):
+            file_name = cmd_list[1]
+            file_size = os.path.getsize(file_name)
+            data_header = {
+                "action":"put",
+                "file_name":file_name,
+                "file_size":file_size,
+                "path":self.path
+            }
+            if self.md5_check(cmd_list):
+                data_header.update({"md5":True})
+            self.sock.send(json.dumps(data_header).encode())
+            response = self.get_response()
+            if response.get("status_code") == 259:
+                file_obj = open(file_name,'rb')
+                print("starting send file")
+                progress = self.show_progress(file_size)
+                progress.__next__()
+                if self.md5_check(cmd_list):
+                    md5_obj = hashlib.md5()
+                    for line in file_obj:
+                        self.sock.send(line)
+                        md5_obj.update(line)
+                        try:
+                            progress.send(len(line))
+                        except:
+                            print("100%")
+                    else:
+                        md5_var = md5_obj.hexdigest()
+                        response = self.get_response()
+                        if response.get("md5_hexdigest"):
+                            print(response.get("md5_hexdigest"),md5_var)
+                            if response.get("md5_hexdigest") == md5_var:
+                                print("文件一致性校验成功！")
+                            else:
+                                print("文件校验出错！")
+                else:
+                    for line in file_obj:
+                        self.sock.send(line)
+                        try:
+                            progress.send(len(line))
+                        except:
+                            print("100%")
+                    else:
+                        self.get_response()
+                file_obj.close()
+                print("send success")
+        else:
+            print("File is not exist")
 
     def _ls(self, cmd_list):
         if len(cmd_list) > 1:

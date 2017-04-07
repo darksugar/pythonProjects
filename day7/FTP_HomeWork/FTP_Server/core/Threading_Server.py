@@ -15,7 +15,10 @@ STATUS_CODE = {
     255:"Starting send file",
     256:"File is not exists",
     257:"MD5 verifycation",
-    258:"dir result"
+    258:"dir result",
+    259:"Ready to receive file",
+    260:"Receive complete"
+
               }
 class FTPHandler(socketserver.BaseRequestHandler):
     def handle(self):
@@ -89,8 +92,8 @@ class FTPHandler(socketserver.BaseRequestHandler):
                         self.request.send(line)
                         md5_obj.update(line)
                     else:
-                        md5_val = md5_obj.hexdigest()
-                        self.send_response(257,data={"md5_hexdigest":md5_val})
+                        md5_var = md5_obj.hexdigest()
+                        self.send_response(257,data={"md5_hexdigest":md5_var})
                 else:
                     for line in file_obj:
                         self.request.send(line)
@@ -101,15 +104,45 @@ class FTPHandler(socketserver.BaseRequestHandler):
             self.send_response(250)
 
     def _put(self,*args,**kwargs):
-        pass
+        recv_data = args[0]
+        if recv_data.get("action") == "put":
+            self.send_response(259)
+            file_name = recv_data.get("file_name")
+            file_abs_name = os.path.join(os.path.join(settings.USER_HOME, recv_data.get("path")),file_name)
+            file_size = recv_data.get("file_size")
+            file_obj = open(file_abs_name,'wb')
+            receive_size = 0
+            if recv_data.get("md5"):
+                md5_obj = hashlib.md5()
+                while receive_size < file_size:
+                    recv =self.request.recv(4096)
+                    file_obj.write(recv)
+                    md5_obj.update(recv)
+                    receive_size += len(recv)
+                else:
+                    md5_var = md5_obj.hexdigest()
+                    self.send_response(257,data={"md5_hexdigest":md5_var})
+            else:
+                while receive_size < file_size:
+                    recv =self.request.recv(4096)
+                    file_obj.write(recv)
+                    receive_size += len(recv)
+                else:
+                    self.send_response(260)
+        else:
+            self.send_response(250)
+
     def _cd(self,*args,**kwargs):
         pass
     def _ls(self,*args,**kwargs):
         data = args[0]
         if data.get("action") == 'ls':
             if data.get("path"):
-                current_dir = "%s%s" % (settings.USER_HOME,data.get("path"))
-                dir_res = subprocess.Popen('dir',cwd=current_dir)
+                current_dir = os.path.join(settings.USER_HOME,data.get("path"))
+                print(settings.USER_HOME,data.get("path"))
+                print(current_dir)
+                sub_obj = subprocess.Popen('dir',cwd=current_dir,shell=True,stdout=subprocess.PIPE)
+                dir_res = sub_obj.stdout.read().decode("GBK")
                 self.send_response(258,data={"dir_res":dir_res})
         else:
             self.send_response(251)
