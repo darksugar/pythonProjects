@@ -3,6 +3,7 @@ import socketserver
 import json
 import configparser
 import os,sys
+import subprocess
 import hashlib
 from conf import settings
 STATUS_CODE = {
@@ -13,7 +14,8 @@ STATUS_CODE = {
     254:"Passed auth",
     255:"Starting send file",
     256:"File is not exists",
-    257:"MD5 verifycation"
+    257:"MD5 verifycation",
+    258:"dir result"
               }
 class FTPHandler(socketserver.BaseRequestHandler):
     def handle(self):
@@ -96,11 +98,21 @@ class FTPHandler(socketserver.BaseRequestHandler):
             else:
                 self.send_response(256)
         else:
-            self.send_response(252)
+            self.send_response(250)
 
     def _put(self,*args,**kwargs):
         pass
     def _cd(self,*args,**kwargs):
         pass
     def _ls(self,*args,**kwargs):
-        pass
+        data = args[0]
+        if data.get("action") == 'ls':
+            if data.get("path"):
+                current_dir = "%s%s" % (settings.USER_HOME,data.get("path"))
+                dir_res = subprocess.Popen('dir',cwd=current_dir)
+                self.send_response(258,data={"dir_res":dir_res})
+        else:
+            self.send_response(251)
+
+
+

@@ -33,7 +33,6 @@ class FTPClient(object):
         self.sock = socket.socket()
         self.sock.connect((self.option.server, self.option.port))
 
-
     def authenticate(self):
         '''用户验证'''
         if self.option.username:
@@ -60,6 +59,7 @@ class FTPClient(object):
         if response.get('status_code') == 254:
             print("Passed authentication!")
             self.user = username
+            self.path = "/%s" % self.user
             return True
         else:
             print(response.get('status_msg'))
@@ -75,7 +75,7 @@ class FTPClient(object):
         if self.authenticate():
             print("-----start interactive-----")
             while True:
-                choice = input("[%s]>>>:" % self.user).strip()
+                choice = input("[%s][%s]>>>:" % (self.user,self.path)).strip()
                 if len(choice) == 0: continue
                 cmd_list = choice.split()
                 if hasattr(self ,"_%s" % cmd_list[0]):
@@ -150,9 +150,24 @@ class FTPClient(object):
                     file_obj.write(recv)
                     receive_size += len(recv)
             file_obj.close()
-
         else:
             print(response.get('status_msg'))
+
+    def _ls(self, cmd_list):
+        if len(cmd_list) > 1:
+            return print("Invalid argv.")
+        data = {
+            "action": "ls",
+            "path":self.path
+        }
+        self.sock.send(json.dumps(data).encode("utf-8"))
+        response = self.get_response()
+        if response.get("status_code") == 258:
+            dir_res = response.get("dir_res")
+            print(dir_res)
+        else:
+            print(response.get('status_msg'))
+
 
 if __name__ == '__main__':
     ftp = FTPClient()
