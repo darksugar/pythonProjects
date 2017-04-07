@@ -79,6 +79,7 @@ class FTPHandler(socketserver.BaseRequestHandler):
                 file_size = os.path.getsize(file_abs_name)
                 response_data = {"file_size":file_size}
                 self.send_response(255,response_data)
+                self.request.recv(1)#防止粘包
                 file_obj = open(file_abs_name,'rb')
                 if recv_data.get("md5"):
                     md5_obj = hashlib.md5()

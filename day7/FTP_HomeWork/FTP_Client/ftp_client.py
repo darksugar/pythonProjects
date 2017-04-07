@@ -112,6 +112,7 @@ class FTPClient(object):
             header.update({"md5":True})
         self.sock.send(json.dumps(header).encode("utf-8"))
         response = self.get_response()
+        self.sock.send(b'1') #防止粘包
         if response.get('status_code') == 255:
             print("start download")
             receive_size = 0
