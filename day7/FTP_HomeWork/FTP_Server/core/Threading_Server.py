@@ -2,6 +2,8 @@
 import socketserver
 import json
 import configparser
+import os,sys
+import hashlib
 from conf import settings
 STATUS_CODE = {
     250:"Invalid cmd format,e.g:{'action':'get','filename':'test.py','size':344",
@@ -9,6 +11,9 @@ STATUS_CODE = {
     252:"Invalid auth data",
     253:"Incorrect username or password",
     254:"Passed auth",
+    255:"Starting send file",
+    256:"File is not exists",
+    257:"MD5 verifycation"
               }
 class FTPHandler(socketserver.BaseRequestHandler):
     def handle(self):
@@ -30,12 +35,14 @@ class FTPHandler(socketserver.BaseRequestHandler):
             else:
                 print("invalid cmd format")
                 self.send_response(250)
+
     def send_response(self,status_code,data=None):
         '''向客户端返回数据'''
         response = {'status_code':status_code,'status_msg':STATUS_CODE[status_code]}
         if data:
             response.update(data)
         self.request.send(json.dumps(response).encode('utf-8'))
+
     def _auth(self,*args,**kwargs):
         data = args[0]
         if data.get("username") and data.get("password"):
@@ -43,11 +50,13 @@ class FTPHandler(socketserver.BaseRequestHandler):
             print("user---",user)
             if user:
                 print("Passed authentication",user)
+                self.user = user
                 self.send_response(254)
             else:
                 self.send_response(253)
         else:
             self.send_response(252)
+
     def authenticate(self,username,password):
         '''验证用户合法性，和法则返回用户数据'''
         config = configparser.ConfigParser()
@@ -56,11 +65,38 @@ class FTPHandler(socketserver.BaseRequestHandler):
             _password = config[username]["Password"]
             print(config[username]["Password"])
             if _password == password:
+                config[username]["Username"] = username
                 return config[username]
-            else:
-                return False
+
     def _get(self,*args,**kwargs):
-        pass
+        recv_data = args[0]
+        print(recv_data)
+        if recv_data.get('action') == 'get':
+            user_home_dir = '%s/%s' % (settings.USER_HOME, self.user['Username'])
+            file_abs_name = '%s/%s' % (user_home_dir, recv_data.get('file_name'))
+            print(file_abs_name)
+            if os.path.isfile(file_abs_name):
+                file_size = os.path.getsize(file_abs_name)
+                response_data = {"file_size":file_size}
+                self.send_response(255,response_data)
+                file_obj = open(file_abs_name,'rb')
+                if recv_data.get("md5"):
+                    md5_obj = hashlib.md5()
+                    for line in file_obj:
+                        self.request.send(line)
+                        md5_obj.update(line)
+                    else:
+                        md5_val = md5_obj.hexdigest()
+                        self.send_response(257,data={"md5_hexdigest":md5_val})
+                else:
+                    for line in file_obj:
+                        self.request.send(line)
+                file_obj.close()
+            else:
+                self.send_response(256)
+        else:
+            self.send_response(252)
+
     def _put(self,*args,**kwargs):
         pass
     def _cd(self,*args,**kwargs):

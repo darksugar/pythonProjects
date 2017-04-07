@@ -19,6 +19,6 @@ class ArgsHandler():
             self.parser.print_help()
     def start(self):
         print('start'.center(30,'-'))
-        server = socketserver.TCPServer((settings.HOST, settings.PORT), FTPHandler)
+        server = socketserver.ThreadingTCPServer((settings.HOST, settings.PORT), FTPHandler)
         server.serve_forever()
 
