@@ -39,6 +39,7 @@ res.pid
 
 #例子
 p = subprocess.Popen("df -h|grep disk",stdin=subprocess.PIPE,stdout=subprocess.PIPE,shell=True)
+p = subprocess.Popen(['df','-h'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,shell=False)
 p.stdout.read()
 b'/dev/disk1 465Gi 64Gi 400Gi 14% 16901472 104938142 14% /\n'
 

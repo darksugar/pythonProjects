@@ -4,6 +4,7 @@ import json
 import optparse
 import hashlib
 import os
+import time
 __author__ = 'Ivor'
 
 
@@ -71,6 +72,11 @@ class FTPClient(object):
         data = json.loads(data.decode())
         return data
 
+    def send_header(self,header):
+        '''发送头文件，请求交互'''
+        data = json.dumps(header).encode('utf-8')
+        self.sock.send(data)
+
     def interactive(self):
         '''开始交互'''
         if self.authenticate():
@@ -111,7 +117,7 @@ class FTPClient(object):
         }
         if self.md5_check(cmd_list):
             header.update({"md5":True})
-        self.sock.send(json.dumps(header).encode("utf-8"))
+        self.send_header(header)
         response = self.get_response()
         self.sock.send(b'1') #防止粘包
         if response.get('status_code') == 255:
@@ -159,15 +165,17 @@ class FTPClient(object):
         if os.path.isfile(cmd_list[1]):
             file_name = cmd_list[1]
             file_size = os.path.getsize(file_name)
-            data_header = {
+            header = {
                 "action":"put",
                 "file_name":file_name,
                 "file_size":file_size,
+                "user":self.user,
                 "path":self.path
             }
             if self.md5_check(cmd_list):
-                data_header.update({"md5":True})
-            self.sock.send(json.dumps(data_header).encode())
+                header.update({"md5":True})
+            self.send_header(header)
+            time.sleep(1)
             response = self.get_response()
             if response.get("status_code") == 259:
                 file_obj = open(file_name,'rb')
@@ -209,17 +217,71 @@ class FTPClient(object):
     def _ls(self, cmd_list):
         if len(cmd_list) > 1:
             return print("Invalid argv.")
-        data = {
+        header = {
             "action": "ls",
             "path":self.path
         }
-        self.sock.send(json.dumps(data).encode("utf-8"))
+        self.send_header(header)
         response = self.get_response()
         if response.get("status_code") == 258:
             dir_res = response.get("dir_res")
             print(dir_res)
         else:
             print(response.get('status_msg'))
+
+    def _dir(self, cmd_list):
+        if len(cmd_list) > 1:
+            return print("Invalid argv.")
+        header = {
+            "action": "dir",
+            "path":self.path
+        }
+        self.send_header(header)
+        response = self.get_response()
+        if response.get("status_code") == 258:
+            dir_res = response.get("dir_res")
+            print(dir_res)
+        else:
+            print(response.get('status_msg'))
+
+    def _cd(self,cmd_list):
+        if len(cmd_list) > 2 : return print("Invalid cmd")
+        if cmd_list[1] == '.': return True
+        if cmd_list[1] == '..' :
+            if os.path.dirname(self.path):
+                self.path = os.path.dirname(self.path)
+                print("Dir change success")
+                return True
+            else:
+                print("目前已经是根目录，无法切换")
+                return True
+        chg_dir = "%s/%s" % (self.path,cmd_list[1])
+        header = {
+            "action":"cd",
+            "path":chg_dir
+        }
+        self.send_header(header)
+        response = self.get_response()
+        if response.get("status_code") == 262:
+            print("Dir change success")
+            self.path = chg_dir
+            print("self.path---",self.path)
+        else:
+            print(response.get("status_msg"))
+
+    def _mkdir(self,cmd_list):
+        if len(cmd_list) < 2:return print("Need a dir name")
+        dir_name = "%s/%s" % (self.path,cmd_list[1])
+        header = {
+            "action":"mkdir",
+            "dir_name":dir_name
+        }
+        self.send_header(header)
+        response = self.get_response()
+        if response.get("status_code") == 264:
+            print("Dir created success")
+        else:
+            print(response.get("status_msg"))
 
 
 if __name__ == '__main__':

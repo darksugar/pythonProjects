@@ -1,4 +1,4 @@
-#Authon Ivor
+#Author:Ivor#Authon Ivor
 
 import os
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

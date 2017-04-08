@@ -13,7 +13,6 @@ from core import accounts
 from core import transaction
 from core.auth import login_required
 from conf import settings
-import time
 
 #transaction logger
 trans_logger = logger.logger('transaction')

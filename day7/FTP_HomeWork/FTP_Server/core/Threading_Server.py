@@ -7,19 +7,23 @@ import subprocess
 import hashlib
 from conf import settings
 STATUS_CODE = {
-    250:"Invalid cmd format,e.g:{'action':'get','filename':'test.py','size':344",
-    251:"Invalid cmd ,e.g:{'action':'get','filename':'test.py','size':344",
-    252:"Invalid auth data",
-    253:"Incorrect username or password",
-    254:"Passed auth",
-    255:"Starting send file",
-    256:"File is not exists",
-    257:"MD5 verifycation",
-    258:"dir result",
-    259:"Ready to receive file",
-    260:"Receive complete"
-
-              }
+    250: "Invalid cmd format,e.g:{'action':'get','filename':'test.py','size':344",
+    251: "Invalid cmd",
+    252: "Invalid auth data",
+    253: "Incorrect username or password",
+    254: "Passed auth",
+    255: "Starting send file",
+    256: "File is not exists",
+    257: "MD5 verifycation",
+    258: "dir result",
+    259: "Ready to receive file",
+    260: "Receive complete",
+    261: "Dir is not exist",
+    262: "Dir change success",
+    263: "Dir is exist",
+    264: "Dir created success",
+    265: "free space is not enough"
+    }
 class FTPHandler(socketserver.BaseRequestHandler):
     def handle(self):
         while True:
@@ -27,8 +31,8 @@ class FTPHandler(socketserver.BaseRequestHandler):
             if len(self.data) == 0:
                 print("Client is close")
                 break
-            print(self.client_address)
-            print(self.data)
+            print("client_address---",self.client_address)
+            print("client_data---",self.data)
             data = json.loads(self.data.decode())
             if data.get('action') is not None:
                 if hasattr(self,"_%s" % data.get('action')):
@@ -41,9 +45,9 @@ class FTPHandler(socketserver.BaseRequestHandler):
                 print("invalid cmd format")
                 self.send_response(250)
 
-    def send_response(self,status_code,data=None):
+    def send_response(self, status_code,data=None):
         '''向客户端返回数据'''
-        response = {'status_code':status_code,'status_msg':STATUS_CODE[status_code]}
+        response = {'status_code': status_code, 'status_msg': STATUS_CODE[status_code]}
         if data:
             response.update(data)
         self.request.send(json.dumps(response).encode('utf-8'))
@@ -73,13 +77,28 @@ class FTPHandler(socketserver.BaseRequestHandler):
                 config[username]["Username"] = username
                 return config[username]
 
+    def get_free_size(self,user):
+        root_dir = "%s/%s" % (settings.USER_HOME, user)
+        total_size = 0
+        for dir,c_dir,files in os.walk(root_dir):
+            for file in files:
+                size = os.path.getsize(os.path.join(dir,file))
+                total_size += size
+        config = configparser.ConfigParser()
+        config.read(settings.ACCOUNT_FILE)
+        quotation = config[user]["Quotation"]
+        quotation = int(quotation.replace("M",""))
+        total_size = total_size/1024/1024
+        return quotation - total_size
+
+
     def _get(self,*args,**kwargs):
         recv_data = args[0]
-        print(recv_data)
+        print("get_recv_data----",recv_data)
         if recv_data.get('action') == 'get':
             user_home_dir = '%s/%s' % (settings.USER_HOME, self.user['Username'])
             file_abs_name = '%s/%s' % (user_home_dir, recv_data.get('file_name'))
-            print(file_abs_name)
+            print("get_file_abs_name---",file_abs_name)
             if os.path.isfile(file_abs_name):
                 file_size = os.path.getsize(file_abs_name)
                 response_data = {"file_size":file_size}
@@ -110,6 +129,11 @@ class FTPHandler(socketserver.BaseRequestHandler):
             file_name = recv_data.get("file_name")
             file_abs_name = os.path.join(os.path.join(settings.USER_HOME, recv_data.get("path")),file_name)
             file_size = recv_data.get("file_size")
+            # free_size = self.get_free_size(recv_data.get("user"))
+            # print("Free_size---",free_size)
+            # if  file_size > free_size:
+            #     self.send_response(265)
+            #     return False
             file_obj = open(file_abs_name,'wb')
             receive_size = 0
             if recv_data.get("md5"):
@@ -132,20 +156,57 @@ class FTPHandler(socketserver.BaseRequestHandler):
         else:
             self.send_response(250)
 
-    def _cd(self,*args,**kwargs):
-        pass
     def _ls(self,*args,**kwargs):
         data = args[0]
         if data.get("action") == 'ls':
             if data.get("path"):
                 current_dir = os.path.join(settings.USER_HOME,data.get("path"))
                 print(settings.USER_HOME,data.get("path"))
-                print(current_dir)
-                sub_obj = subprocess.Popen('dir',cwd=current_dir,shell=True,stdout=subprocess.PIPE)
-                dir_res = sub_obj.stdout.read().decode("GBK")
-                self.send_response(258,data={"dir_res":dir_res})
+                print("ls_current_dir---",current_dir)
+                sub_obj = subprocess.Popen('ls',cwd=current_dir,shell=True,stdout=subprocess.PIPE)
+                dir_res = sub_obj.stdout.read().decode()
+                if dir_res:
+                    self.send_response(258,data={"dir_res":dir_res})
+                else:
+                    self.send_response(251)
         else:
             self.send_response(251)
 
+    def _dir(self,*args,**kwargs):
+        data = args[0]
+        if data.get("action") == 'dir':
+            if data.get("path"):
+                current_dir = os.path.join(settings.USER_HOME,data.get("path"))
+                print(settings.USER_HOME,data.get("path"))
+                print("ls_current_dir---",current_dir)
+                sub_obj = subprocess.Popen('dir',cwd=current_dir,shell=True,stdout=subprocess.PIPE)
+                dir_res = sub_obj.stdout.read().decode("GBK")
+                if dir_res:
+                    self.send_response(258,data={"dir_res":dir_res})
+                else:
+                    self.send_response(251)
+        else:
+            self.send_response(251)
 
+    def _cd(self,*args,**kwargs):
+        data = args[0]
+        if data.get('action') == 'cd':
+            if data.get('path'):
+                chg_dir = os.path.join(settings.USER_HOME,data.get('path'))
+                print("chg_dir---",chg_dir)
+                if os.path.isdir(chg_dir):
+                    self.send_response(262)
+                else:
+                    self.send_response(261)
 
+    def _mkdir(self,*args,**kwargs):
+        data = args[0]
+        if data.get("action") == 'mkdir':
+            if data.get("dir_name"):
+                dir_name = os.path.join(settings.USER_HOME,data.get("dir_name"))
+                if os.path.isdir(dir_name):
+                    self.send_response(263)
+                else:
+                    os.mkdir(dir_name)
+                    print("mkdir---",dir_name)
+                    self.send_response(264)
