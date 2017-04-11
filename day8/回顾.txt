@@ -1,0 +1,68 @@
+#Author:Ivor
+
+第三模块考试预测
+
+类
+     属性
+          实例变量:内存中
+          类变量: 类的内存，实例共享
+          私有属性__var
+     方法
+          构造方法: 初始化
+          析构方法: 实例销毁的时候
+          私有方法
+          静态方法:只是名义上的归类管理，实际上在静态方法中无法访问类中的任何属性。
+          属性方法:把一个方法变成静态属性
+          类方法:可以使用类变量，不能访问实例中的变量
+
+
+对象:一个类的实例
+     封装
+          把一些功能的实现细节，不对外暴露
+     继承
+          代码的重用
+          单集成
+           多继承
+                2.7 经典类，深度优先     新式类，广度优先
+                3.x 均是广度优先
+                class Foo(object)
+               def __init__(self,name,age,sex,salary,course):
+                    super(Foo,self).__init__(name,age,sex)
+                    self.salary = salary
+                    self.course = course
+     多态
+          接口的重用，一种接口，多种实现
+
+反射
+     hasattr(obj,name_str) ，判断一个对象obj里是否有对应name_str字符串的方法。
+     getattr(obj,name_str)，根据字符串去获取obj对象里的对应的方法的内存地址。
+     setattr(obj,'y',z) is equivalent to      x.y = v
+     delattr(obj,name_str) 指定删除什么方法
+
+动态导入
+    __import__("XXX")
+异常
+        try:
+        name[3]
+    except IndexError as e :
+        print(e)
+    try:
+        dic['666']
+    except KeyError as e:
+        print("KeyError",e)
+
+    except Exception as e:
+        print("可以抓到任何错误！")
+    else:
+        print("没有错误时我会运行！")
+    finally:
+        print("不管怎么样，我都会运行！")
+断言
+    assert a is int
+    保证后续代码正常运行
+网络编程
+    编写简单FTP
+
+
+
+

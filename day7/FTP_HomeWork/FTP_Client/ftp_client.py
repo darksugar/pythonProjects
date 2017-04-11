@@ -211,7 +211,10 @@ class FTPClient(object):
                         self.get_response()
                 file_obj.close()
                 print("send success")
+            if response.get("status_code") == 265:
+                print(response.get("status_msg"))
         else:
+
             print("File is not exist")
 
     def _ls(self, cmd_list):

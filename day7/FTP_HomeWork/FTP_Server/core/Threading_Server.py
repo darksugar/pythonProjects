@@ -88,9 +88,8 @@ class FTPHandler(socketserver.BaseRequestHandler):
         config.read(settings.ACCOUNT_FILE)
         quotation = config[user]["Quotation"]
         quotation = int(quotation.replace("M",""))
-        total_size = total_size/1024/1024
+        quotation = quotation*1024*1024
         return quotation - total_size
-
 
     def _get(self,*args,**kwargs):
         recv_data = args[0]
@@ -125,15 +124,16 @@ class FTPHandler(socketserver.BaseRequestHandler):
     def _put(self,*args,**kwargs):
         recv_data = args[0]
         if recv_data.get("action") == "put":
-            self.send_response(259)
             file_name = recv_data.get("file_name")
             file_abs_name = os.path.join(os.path.join(settings.USER_HOME, recv_data.get("path")),file_name)
             file_size = recv_data.get("file_size")
-            # free_size = self.get_free_size(recv_data.get("user"))
-            # print("Free_size---",free_size)
-            # if  file_size > free_size:
-            #     self.send_response(265)
-            #     return False
+            free_size = self.get_free_size(recv_data.get("user"))
+            print("Free_size---",free_size)
+            print("File_size---",file_size)
+            if  file_size > free_size:
+                self.send_response(265)
+                return
+            self.send_response(259)
             file_obj = open(file_abs_name,'wb')
             receive_size = 0
             if recv_data.get("md5"):
