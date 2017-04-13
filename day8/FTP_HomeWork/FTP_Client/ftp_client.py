@@ -117,24 +117,37 @@ class FTPClient(object):
             "action": "get",
             "file_name": cmd_list[1]
         }
+        if os.path.isfile(cmd_list[1]):
+            current_file_size = os.path.getsize(cmd_list[1])
+            header.update({"old_file_size":current_file_size})
         if self.md5_check(cmd_list):
             header.update({"md5":True})
         self.send_header(header)
         response = self.get_response()
-        self.sock.send(b'1') #防止粘包
+        if response.get('status_code') == 266:
+            choice = input("File is exist ,do your want continue receive..y/n:")
+            if choice == 'y' or choice == 'Y':
+                self.sock.send('y'.encode())
+                response = self.get_response()
+            else:
+                self.sock.send('n'.encode())
+                response = self.get_response()
         if response.get('status_code') == 255:
             print("start download")
             receive_size = 0
             file_size = response.get("file_size")
             file_name = cmd_list[1]
-            file_obj = open(file_name, 'wb')
+            if os.path.isfile(file_name):
+                file_obj = open(file_name, 'ab')
+            else:
+                file_obj = open(file_name, 'wb')
             process = self.show_progress(file_size)
             process.__next__()
             if self.md5_check(cmd_list):
                 md5_obj = hashlib.md5()
                 while receive_size == file_size:
-                    if file_size - receive_size > 4096:
-                        size = 4096
+                    if file_size - receive_size > 1024:
+                        size = 1024
                     else:
                         size = file_size - receive_size
                     recv = self.sock.recv(size)
@@ -155,8 +168,8 @@ class FTPClient(object):
                         print("文件校验出错！")
             else:
                 while receive_size < file_size:
-                    if file_size - receive_size > 4096:
-                        size = 4096
+                    if file_size - receive_size > 1024:
+                        size = 1024
                     else:
                         size = file_size - receive_size
                     recv = self.sock.recv(size)
@@ -185,10 +198,24 @@ class FTPClient(object):
             if self.md5_check(cmd_list):
                 header.update({"md5":True})
             self.send_header(header)
-            time.sleep(0.5)
             response = self.get_response()
+            old_file_size = 0
+            continue_flag = False
+            if response.get("status_code")  == 267:
+                if response.get("old_file_size"):
+                    choice = input("File is exist,do you want send continue..y/n:")
+                    if choice == 'y' or choice == 'Y':
+                        self.sock.send('y'.encode())
+                        continue_flag = True
+                        old_file_size = response.get("old_file_size")
+                        response = self.get_response()
+                    else:
+                        self.sock.send('n'.encode())
+                        response = self.get_response()
+            file_obj = open(file_name, 'rb')
+            if continue_flag:
+                file_obj.seek(old_file_size)
             if response.get("status_code") == 259:
-                file_obj = open(file_name,'rb')
                 print("starting send file")
                 progress = self.show_progress(file_size)
                 progress.__next__()

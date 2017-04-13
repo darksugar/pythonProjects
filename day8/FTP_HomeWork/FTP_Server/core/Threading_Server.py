@@ -22,7 +22,9 @@ STATUS_CODE = {
     262: "Dir change success",
     263: "Dir is exist",
     264: "Dir created success",
-    265: "free space is not enough"
+    265: "free space is not enough",
+    266: "File send can continue",
+    267: "File receive can continue"
     }
 class FTPHandler(socketserver.BaseRequestHandler):
     def handle(self):
@@ -100,10 +102,19 @@ class FTPHandler(socketserver.BaseRequestHandler):
             print("get_file_abs_name---",file_abs_name)
             if os.path.isfile(file_abs_name):
                 file_size = os.path.getsize(file_abs_name)
-                response_data = {"file_size":file_size}
-                self.send_response(255,response_data)
-                self.request.recv(1)#防止粘包
+                if recv_data.get('old_file_size'):
+                    if recv_data.get('old_file_size') < file_size:
+                        self.send_response(266)
+                        choice = self.request.recv(1)
+                        if choice.decode() == 'y':
+                            file_size = file_size - recv_data.get('old_file_size')
+                            print("file_size",file_size)
+                response_data = {"file_size": file_size}
+                print("file_size---",file_size)
+                self.send_response(255, response_data)
                 file_obj = open(file_abs_name,'rb')
+                if recv_data.get('old_file_size'):
+                    file_obj.seek(recv_data.get('old_file_size'))
                 if recv_data.get("md5"):
                     md5_obj = hashlib.md5()
                     for line in file_obj:
@@ -133,14 +144,27 @@ class FTPHandler(socketserver.BaseRequestHandler):
             if  file_size > free_size:
                 self.send_response(265)
                 return
+            continue_flag = False
+            if os.path.isfile(file_abs_name):
+                old_file_size = os.path.getsize(file_abs_name)
+                print("Old and new",old_file_size,file_size)
+                if old_file_size < file_size:
+                    self.send_response(267,{"old_file_size":old_file_size})
+                    choice = self.request.recv(1)
+                    if choice.decode() == 'y':
+                        continue_flag = True
+                        file_size = file_size - old_file_size
             self.send_response(259)
-            file_obj = open(file_abs_name,'wb')
+            if continue_flag:
+                file_obj = open(file_abs_name, 'ab')
+            else:
+                file_obj = open(file_abs_name, 'wb')
             receive_size = 0
             if recv_data.get("md5"):
                 md5_obj = hashlib.md5()
                 while receive_size < file_size:
-                    if file_size - receive_size > 4096:
-                        size = 4096
+                    if file_size - receive_size > 1024:
+                        size = 1024
                     else:
                         size = file_size - receive_size
                     recv = self.request.recv(size)
@@ -152,8 +176,8 @@ class FTPHandler(socketserver.BaseRequestHandler):
                     self.send_response(257,data={"md5_hexdigest":md5_var})
             else:
                 while receive_size < file_size:
-                    if file_size - receive_size > 4096:
-                        size = 4096
+                    if file_size - receive_size > 1024:
+                        size = 1024
                     else:
                         size = file_size - receive_size
                     recv = self.request.recv(size)
