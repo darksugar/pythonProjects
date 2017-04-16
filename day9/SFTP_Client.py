@@ -8,5 +8,5 @@ sftp = paramiko.SFTPClient.from_transport(conn)
 #上传动作
 # sftp.put('D:\\test.xls','/tmp/test.xls')
 #下载动作
-sftp.get('/tmp/test.xls','D:\\test.xls')
+# sftp.get('/tmp/test.xls','D:\\test.xls')
 conn.close()
