@@ -1,16 +1,4 @@
 #Authon Ivor
-import multiprocessing
-import time
-
-def run(name):
-    time.sleep(2)
-    print(name)
-
-if __name__ == '__main__':
-    for i in range(10):
-        p = multiprocessing.Process(target=run,args=(i,))
-        p.start()
-
 from multiprocessing import Process
 import os
 
@@ -19,13 +7,11 @@ def info(title):
     print('module name:', __name__)
     print('parent process:', os.getppid())
     print('process id:', os.getpid())
-    print("\n\n")
-
+    print("")
 
 def f(name):
     info('\033[31;1mfunction f\033[0m')
     print('hello', name)
-
 
 if __name__ == '__main__':
     info('\033[32;1mmain process line\033[0m')
