@@ -13,3 +13,18 @@ result = stdout.read()
 print(result.decode())
 #关闭连接
 ssh.close()
+
+#SSHClient 封装 Transport
+import paramiko
+
+transport = paramiko.Transport(('hostname', 22))
+transport.connect(username='wupeiqi', password='123')
+
+ssh = paramiko.SSHClient()
+ssh._transport = transport
+
+stdin, stdout, stderr = ssh.exec_command('df')
+print(stdout.read())
+
+transport.close()
+

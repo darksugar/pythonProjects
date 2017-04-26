@@ -1,0 +1,256 @@
+#Authon Ivor
+import pickle
+import re,os,sys
+import threading
+from core import basic
+from conf import settings
+
+class Fabric_like(object):
+    def __init__(self):
+        pass
+
+    def start(self):
+        menu = '''
+            1. Print Host List
+            2. Print Group List
+            3. Execute CMD
+            4. Put File
+            5. Get File
+            6. Add New Host
+            7. Add New Group
+            8. Change Host Detail
+            '''
+        menu_dic = {
+            1:self.print_list,
+            2:self.print_group,
+            3:self.execute_cmd,
+            4:self.put_file,
+            5:self.get_file,
+            6:self.add_host,
+            7:self.add_group,
+            8:self.change_host
+        }
+        while True:
+            choice = input("Input the Number(help[0])>>>:")
+            if choice == '0':
+                print(menu)
+                continue
+            if choice.isdigit():
+                choice = int(choice)
+                if  0 < choice < (len(menu_dic)+1):
+                    menu_dic[choice]()
+                else:
+                    print("\033[31;1mChoice out of range...\033[0m")
+            else:
+                print("\033[31;1mChoice must a NUM...\033[0m")
+
+    def active_hosts(self):
+        '''
+        将选中的主机添加到self.host_obj_list
+        :return:
+        '''
+        host_dic = self.print_list()
+        self.host_obj_list = []
+        example = '''
+        Input the host name
+        Choose one host:host1
+        Choose multipule host:host1,host2,host3
+        '''
+        print(example)
+        choice = input(">>>:")
+        host_list = choice.strip().split(",")
+        for host in host_list:
+            if host in host_dic.keys():
+                self.host_obj_list.append(host_dic.get(host))
+            else:
+                print("\033[31;1mWrong Input...\033[0m")
+                return False
+        print(host_list)
+        return True
+
+    def active_group(self):
+        group_dic = self.print_group()
+        self.group_obj_list = []
+        example = '''
+        Input the group name
+        Choose one group:group1
+        Choose multipule group:group1,group2,group3
+        '''
+        print(example)
+        choice = input(">>>:")
+        group_list = choice.strip().split(",")
+        for group_name in group_list:
+            if group_name in group_dic.keys():
+                self.group_obj_list.append(group_dic.get(group_name))
+            else:
+                print("\033[31;1mWrong Input...\033[0m")
+                return False
+        print(group_list)
+        return True
+
+    def print_list(self,out_put=True):
+        '''
+        打印主机列表,返回主机字典
+        { host_obj.name: host_obj }
+        '''
+        host_dic = {}
+        for host_file in os.listdir(settings.HOST_DIR):
+            with open("%s/%s" % (settings.HOST_DIR,host_file),"rb") as host:
+                host_obj = pickle.load(host)
+                host_dic[host_obj.name] = host_obj
+                if out_put:
+                    print("Host:%s:%s(%s:%s):" % (host_obj.name,host_obj.group.name,host_obj.ip,host_obj.port,))
+        return host_dic
+
+    def print_group(self,out_put=True):
+        '''
+        打印组列表,返回组字典
+        { group_obj.name: group_obj }
+        '''
+        group_list = {}
+        for group_file in os.listdir(settings.GROUP_DIR):
+            with open("%s/%s" % (settings.GROUP_DIR,group_file),"rb") as group:
+                group_obj = pickle.load(group)
+                group_list[group_obj.name] = group_obj
+                if out_put:
+                    print("Group:%s" % group_obj.name)
+                    for host in group_obj.hosts_list:
+                        print("\thost:%s" % host.name)
+        return group_list
+
+    def execute_cmd(self):
+        menu = '''
+        1. Choose Host[s]
+        2. Choose Group
+        '''
+        print(menu)
+        choice = input("[1/2]>>>:")
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 1:
+                if self.active_hosts():
+                    cmd = input("Input CMD:")
+                    thread_list = []
+                    for host in self.host_obj_list:
+                        t = threading.Thread(target=host.ssh_execute_cmd,args=(cmd,))
+                        t.setDaemon(True)
+                        thread_list.append(t)
+                        t.start()
+                    for t in thread_list:
+                        t.join()
+            elif choice == 2:
+                if self.active_group():
+                    cmd = input("Input CMD:")
+                    thread_list = []
+                    for group in self.group_obj_list:
+                        print("Group:%s".center(50,"=") % group.name)
+                        for host in group.hosts_list:
+                            t = threading.Thread(target=host.ssh_execute_cmd, args=(cmd,))
+                            t.setDaemon(True)
+                            thread_list.append(t)
+                            t.start()
+                    for t in thread_list:
+                        t.join()
+            else:
+                print("\033[31;1mWrong Number\033[0m")
+        else:
+            print("\033[31;1mChoice must a Number...\033[0m")
+
+    def put_file(self):
+        pass
+
+    def get_file(self):
+        pass
+
+    def add_host(self):
+        '''
+        新建主机
+        输入参数:name,ip,port,username,password,group_obj
+        '''
+        name = input("Input the host NAME:")
+        #判断主机是否存在
+        host_dic = self.print_list(out_put=False)
+        if host_dic.get(name):
+            return print("\033[31;1mHost exist,Add Failed...\033[0m")
+        ip = input("Input the host IP:")
+        # 判断IP规范
+        if not re.fullmatch('(\d{1,3}\.){1,3}\d{1,3}', ip):
+            return print("\033[31;1mWrong IP,Add Failed...\033[0m")
+        port = input("Input the host PORT:")
+        #判断端口
+        if not (0 < int(port) < 65535):
+            return print("\033[31;1mWrong port,Add Failed...\033[0m")
+        username = input("Input the connect USERNAME :")
+        password = input("Input the host PASSWORD:")
+        group_dic = self.print_group()
+        group_name = input("Input the host GROUP:")
+        #判断组输入
+        if group_dic.get(group_name):
+            group_obj = group_dic.get(group_name)
+        else:
+            return print("\033[31;1mWrong group,Add Failed...\033[0m")
+        #执行新建,传入参数及组实例
+        host_obj = basic.Host(name,ip,int(port),username,password,group_obj)
+        #把主机对象加入属组
+        group_obj.hosts_list.append(host_obj)
+        group_obj.update()
+        res = host_obj.add_new()
+        if res:
+            return print("\033[32;1mHost is added...\033[0m")
+
+    def add_group(self):
+        '''
+        新建组
+        输入参数:group_name
+        '''
+        groupname = input("Input the GROUP_NAME:")
+        group_dic = self.print_group(out_put=False)
+        #判断组是否存在
+        if group_dic.get(groupname):
+            return print("\033[31;1mGroup exist,Add Failed...\033[0m")
+        group = basic.Group(groupname)
+        res = group.add_new()
+        if res:
+            return print("\033[32;1mGroup is added...\033[0m")
+
+    def change_host(self):
+        '''
+        修改主机的参数
+        [name][ip][port][username][password][group]
+        '''
+        host_dic = self.print_list()
+        host = input("Input the host name(you want change):")
+        if not host_dic.get(host):
+            return print("Wrong name...")
+        host_obj = host_dic.get(host)
+        choice = input("Which detail you want change?[name][ip][port][username][password][group]?")
+        # if choice == "group":
+        #     group_dic = self.print_group()
+        #     group_name = input("Input the new GROUP:")
+        #     # 判断组输入
+        #     if group_dic.get(group_name):
+        #         group_obj = group_dic.get(group_name)
+        #         old_group_obj = group_dic.get(host_obj.group.name)
+        #     else:
+        #         return print("\033[31;1mWrong group,Change Failed...\033[0m")
+        #     # 将主机从原有属组中删除
+        #     old_group_obj.hosts_list.remove(host_obj)
+        #     # 将主机的属组更改为新属组
+        #     host_obj.group = group_obj
+        #     # 将主机添加到新属组
+        #     group_obj.hosts_list.append(host_obj)
+        #     # 更新数据
+        #     res1 = old_group_obj.update()
+        #     res2 = host_obj.update()
+        #     res3 = group_obj.update()
+        #     if res1 and res2 and res3:
+        #         return print("\033[32;1mChange success...\033[0m")
+
+        if hasattr(host_obj,choice):
+            new_detail = input("Input the %s:" % choice)
+            setattr(host_obj,choice,new_detail)
+            res = host_obj.update()
+            if res:
+                return print("\033[32;1mChange success...\033[0m")
+        else:
+            return print("\033[31;1mWrong input...\033[0m")
