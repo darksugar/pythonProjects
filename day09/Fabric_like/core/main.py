@@ -206,6 +206,7 @@ class Fabric_like(object):
                         t.setDaemon(True)
                         thread_list.append(t)
                         t.start()
+                        self.logger.info("%s put %s to %s" % (host.name, local_file_path, remote_file_path))
                     for t in thread_list:
                         t.join()
             elif choice == 2:
@@ -224,6 +225,7 @@ class Fabric_like(object):
                             t.setDaemon(True)
                             thread_list.append(t)
                             t.start()
+                            self.logger.info("%s put %s to %s" % (host.name, local_file_path, remote_file_path))
                     for t in thread_list:
                         t.join()
             else:

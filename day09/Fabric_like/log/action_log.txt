@@ -29,3 +29,18 @@
 2017-04-27 16:56:24,902  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
 2017-04-27 16:56:25,191  INFO  paramiko.transport  Authentication (password) successful!
 2017-04-27 16:56:25,218  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 17:01:00,429  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 17:01:00,430  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 17:01:00,775  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 17:01:00,779  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 17:01:00,798  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 17:01:00,808  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 17:02:38,395  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 17:02:38,395  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 17:02:38,749  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 17:02:38,751  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 17:02:38,770  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 17:02:38,772  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 17:03:46,445  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 17:03:46,742  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 17:03:46,769  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)

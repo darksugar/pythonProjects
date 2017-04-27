@@ -57,7 +57,7 @@ class Host(object):
         transport = self.make_connect()
         sftp = paramiko.SFTPClient.from_transport(transport)
         if os.path.isfile(local_file_path):
-            if remote_path.endswith(os.sep):
+            if remote_path.endswith("/"):
                 remote_path = remote_path + local_file_path.split(os.sep)[-1]
             try:
                 sftp.put(local_file_path,remote_path)
@@ -66,7 +66,7 @@ class Host(object):
             except Exception as e:
                 print(e)
         if os.path.isdir(local_file_path):
-            if remote_path.endswith(os.sep):
+            if remote_path.endswith("/"):
                 remote_dir = remote_path + local_file_path.split(os.sep)[-1]
             else:
                 remote_dir = remote_path + "/" +local_file_path.split(os.sep)[-1]
