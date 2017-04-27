@@ -1,0 +1,31 @@
+2017-04-27 14:39:44,239  20  root  Execute CMD 'ls' to host:zabbix
+2017-04-27 14:39:44,254  20  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 14:39:44,536  20  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:15:36,688  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_4.3)
+2017-04-27 16:15:36,712  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 16:15:37,025  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:15:37,036  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:15:37,060  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:15:37,141  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:16:07,417  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_4.3)
+2017-04-27 16:16:07,419  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 16:16:07,546  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:16:07,560  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:16:07,581  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:16:07,583  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:18:10,609  INFO  root  Add New Host:socket:test2(10.0.2.59:22):
+2017-04-27 16:21:27,745  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 16:21:28,035  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:21:28,057  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:22:26,878  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 16:22:27,160  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:22:27,183  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:51:43,971  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 16:51:44,263  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:51:44,291  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:55:27,011  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 16:55:27,301  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:55:27,323  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-27 16:56:24,902  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-27 16:56:25,191  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-27 16:56:25,218  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)

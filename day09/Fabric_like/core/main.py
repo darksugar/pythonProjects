@@ -2,12 +2,22 @@
 import pickle
 import re,os,sys
 import threading
+import logging
 from core import basic
 from conf import settings
 
 class Fabric_like(object):
     def __init__(self):
-        pass
+        self.logger = self.get_logger()
+
+    def get_logger(self):
+        logger = logging.getLogger()
+        logger.setLevel(settings.LOG_LEVEL)
+        file_handler = logging.FileHandler(settings.LOG_FILE)
+        fh_formatter = logging.Formatter("%(asctime)s  %(levelname)s  %(name)s  %(message)s")
+        file_handler.setFormatter(fh_formatter)
+        logger.addHandler(file_handler)
+        return logger
 
     def start(self):
         menu = '''
@@ -31,7 +41,7 @@ class Fabric_like(object):
             8:self.change_host
         }
         while True:
-            choice = input("Input the Number(help[0])>>>:")
+            choice = input("Input the Number(help[0])>>:")
             if choice == '0':
                 print(menu)
                 continue
@@ -72,9 +82,9 @@ class Fabric_like(object):
         group_dic = self.print_group()
         self.group_obj_list = []
         example = '''
-        Input the group name
-        Choose one group:group1
-        Choose multipule group:group1,group2,group3
+        Input the groups name
+        Choose one groups:group1
+        Choose multipule groups:group1,group2,group3
         '''
         print(example)
         choice = input(">>>:")
@@ -99,7 +109,7 @@ class Fabric_like(object):
                 host_obj = pickle.load(host)
                 host_dic[host_obj.name] = host_obj
                 if out_put:
-                    print("Host:%s:%s(%s:%s):" % (host_obj.name,host_obj.group.name,host_obj.ip,host_obj.port,))
+                    print("Host:%s:%s(%s:%s):" % (host_obj.name,host_obj.group,host_obj.ip,host_obj.port))
         return host_dic
 
     def print_group(self,out_put=True):
@@ -136,8 +146,10 @@ class Fabric_like(object):
                         t.setDaemon(True)
                         thread_list.append(t)
                         t.start()
+                        self.logger.info("Execute CMD '%s' to host:%s" % (cmd,host.name))
                     for t in thread_list:
                         t.join()
+
             elif choice == 2:
                 if self.active_group():
                     cmd = input("Input CMD:")
@@ -149,6 +161,7 @@ class Fabric_like(object):
                             t.setDaemon(True)
                             thread_list.append(t)
                             t.start()
+                            self.logger.info("Execute CMD '%s' to host:%s" % (cmd, host.name))
                     for t in thread_list:
                         t.join()
             else:
@@ -156,8 +169,67 @@ class Fabric_like(object):
         else:
             print("\033[31;1mChoice must a Number...\033[0m")
 
+    def GetFileList(self,dir, fileList,dirList):
+        newDir = dir
+        if os.path.isfile(dir):
+            fileList.append(dir)
+        elif os.path.isdir(dir):
+            dirList.append(dir)
+            for s in os.listdir(dir):
+                # 忽略某些文件夹
+                # if s == "xxx":
+                # continue
+                newDir = os.path.join(dir, s)
+                self.GetFileList(newDir, fileList,dirList)
+        return fileList,dirList
+
     def put_file(self):
-        pass
+        menu = '''
+                1. Choose Host[s]
+                2. Choose Group
+                '''
+        print(menu)
+        choice = input("[1/2]>>>:")
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 1:
+                if self.active_hosts():
+                    file_name = input("Input File Name/Dir Name:")
+                    if os.path.isfile(file_name) or os.path.isdir(file_name):
+                        local_file_path = os.path.abspath(file_name)
+                        remote_file_path = input("Input Remote Path:")
+                    else:
+                        return print("\033[31;1mFile/Dir is not exists\033[0m")
+                    thread_list = []
+                    for host in self.host_obj_list:
+                        t = threading.Thread(target=host.sftp_put_file, args=(local_file_path,remote_file_path))
+                        t.setDaemon(True)
+                        thread_list.append(t)
+                        t.start()
+                    for t in thread_list:
+                        t.join()
+            elif choice == 2:
+                if self.active_group():
+                    file_name = input("Input File Name/Dir Name:")
+                    if os.path.isfile(file_name) or os.path.isdir(file_name):
+                        local_file_path = os.path.abspath(file_name)
+                        remote_file_path = input("Input Remote Path:")
+                    else:
+                        return print("\033[31;1mFile/Dir is not exists\033[0m")
+                    thread_list = []
+                    for group in self.group_obj_list:
+                        print("Group:%s".center(50, "=") % group.name)
+                        for host in group.hosts_list:
+                            t = threading.Thread(target=host.sftp_put_file, args=(local_file_path,remote_file_path))
+                            t.setDaemon(True)
+                            thread_list.append(t)
+                            t.start()
+                    for t in thread_list:
+                        t.join()
+            else:
+                print("\033[31;1mWrong Number\033[0m")
+        else:
+            print("\033[31;1mChoice must a Number...\033[0m")
 
     def get_file(self):
         pass
@@ -171,7 +243,7 @@ class Fabric_like(object):
         #判断主机是否存在
         host_dic = self.print_list(out_put=False)
         if host_dic.get(name):
-            return print("\033[31;1mHost exist,Add Failed...\033[0m")
+            return print("\033[31;1mHost exists,Add Failed...\033[0m")
         ip = input("Input the host IP:")
         # 判断IP规范
         if not re.fullmatch('(\d{1,3}\.){1,3}\d{1,3}', ip):
@@ -188,14 +260,14 @@ class Fabric_like(object):
         if group_dic.get(group_name):
             group_obj = group_dic.get(group_name)
         else:
-            return print("\033[31;1mWrong group,Add Failed...\033[0m")
-        #执行新建,传入参数及组实例
-        host_obj = basic.Host(name,ip,int(port),username,password,group_obj)
+            return print("\033[31;1mWrong groups,Add Failed...\033[0m")
+        #执行新建,传入参数
+        host_obj = basic.Host(name,ip,int(port),username,password,group_name)
+        res1 = host_obj.add_new()
         #把主机对象加入属组
-        group_obj.hosts_list.append(host_obj)
-        group_obj.update()
-        res = host_obj.add_new()
-        if res:
+        res2 = group_obj.add_host(host_obj)
+        if res1 and res2:
+            self.logger.info("Add New Host:%s:%s(%s:%s):" % (host_obj.name,host_obj.group,host_obj.ip,host_obj.port))
             return print("\033[32;1mHost is added...\033[0m")
 
     def add_group(self):
@@ -207,16 +279,17 @@ class Fabric_like(object):
         group_dic = self.print_group(out_put=False)
         #判断组是否存在
         if group_dic.get(groupname):
-            return print("\033[31;1mGroup exist,Add Failed...\033[0m")
+            return print("\033[31;1mGroup exists,Add Failed...\033[0m")
         group = basic.Group(groupname)
         res = group.add_new()
         if res:
+            self.logger.info("Add New Group %s" % groupname)
             return print("\033[32;1mGroup is added...\033[0m")
 
     def change_host(self):
         '''
         修改主机的参数
-        [name][ip][port][username][password][group]
+        [name][ip][port][username][password][groups]
         '''
         host_dic = self.print_list()
         host = input("Input the host name(you want change):")
@@ -224,33 +297,33 @@ class Fabric_like(object):
             return print("Wrong name...")
         host_obj = host_dic.get(host)
         choice = input("Which detail you want change?[name][ip][port][username][password][group]?")
-        # if choice == "group":
-        #     group_dic = self.print_group()
-        #     group_name = input("Input the new GROUP:")
-        #     # 判断组输入
-        #     if group_dic.get(group_name):
-        #         group_obj = group_dic.get(group_name)
-        #         old_group_obj = group_dic.get(host_obj.group.name)
-        #     else:
-        #         return print("\033[31;1mWrong group,Change Failed...\033[0m")
-        #     # 将主机从原有属组中删除
-        #     old_group_obj.hosts_list.remove(host_obj)
-        #     # 将主机的属组更改为新属组
-        #     host_obj.group = group_obj
-        #     # 将主机添加到新属组
-        #     group_obj.hosts_list.append(host_obj)
-        #     # 更新数据
-        #     res1 = old_group_obj.update()
-        #     res2 = host_obj.update()
-        #     res3 = group_obj.update()
-        #     if res1 and res2 and res3:
-        #         return print("\033[32;1mChange success...\033[0m")
-
-        if hasattr(host_obj,choice):
-            new_detail = input("Input the %s:" % choice)
-            setattr(host_obj,choice,new_detail)
-            res = host_obj.update()
-            if res:
+        if choice == "group":
+            group_dic = self.print_group()
+            group_name = input("Input the new GROUP:")
+            # 判断组输入
+            if group_dic.get(group_name):
+                if group_name == host_obj.group:
+                    return print("\033[31;1m%s is %s group now...\033[0m" % (host_obj.name,group_name))
+                group_obj = group_dic.get(group_name)
+                old_group_obj = group_dic.get(host_obj.group)
+            else:
+                return print("\033[31;1mWrong groups,Change Failed...\033[0m")
+            # 将主机从原有属组中删除
+            res1 = old_group_obj.remove_host(host_obj)
+            # 将主机的属组更改为新属组
+            res2 = group_obj.add_host(host_obj)
+            # 将主机添加到新属组
+            host_obj.group = group_name
+            res3 = host_obj.update()
+            # print("res",res1,res2,res3)
+            if res1 and res2 and res3:
+                self.logger.info("Host:%s's group from %s change to %s" % (host_obj.name,old_group_obj.name,group_obj.name) )
                 return print("\033[32;1mChange success...\033[0m")
+            else:
+                return False
+        attr = host_obj.change_attr(choice)
+        if attr:
+            self.logger.info("Host:%s's %s from %s change to %s" % (host_obj.name,choice,getattr(host_obj,choice),attr))
+            print("\033[32;1mChange success...\033[0m")
         else:
             return print("\033[31;1mWrong input...\033[0m")

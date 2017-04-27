@@ -32,7 +32,7 @@ shutil.make_archive()
 # •format： 压缩包种类，“zip”, “tar”, “bztar”，“gztar”
 # •root_dir： 要压缩的文件夹路径（默认当前目录）
 # •owner： 用户，默认当前用户
-# •group： 组，默认当前组
+# •groups： 组，默认当前组
 # •logger： 用于记录日志，通常是logging.Logger对象
 
 import zipfile

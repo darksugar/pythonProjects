@@ -6,7 +6,12 @@ conn.connect(username='root',password='test83@123')
 #通过连接实例，创建一个FTPClient实例
 sftp = paramiko.SFTPClient.from_transport(conn)
 #上传动作
-# sftp.put('D:\\test.xls','/tmp/test.xls')
+sftp.put('D:/aaa.txt','/tmp/test/')
+# f = sftp.file("/tmp/test")
+# print(f.__dir__())
+# print(f.__dict__)
+# sftp.put('D:\Programs\Python\Python35-32\LICENSE.txt','/tmp/test/bb')
+# sftp.mkdir('/tmp/test/ttt')
 #下载动作
 # sftp.get('/tmp/test.xls','D:\\test.xls')
 conn.close()
