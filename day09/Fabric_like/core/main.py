@@ -11,6 +11,9 @@ class Fabric_like(object):
         self.logger = self.get_logger()
 
     def get_logger(self):
+        '''
+        创建日志对象
+        '''
         logger = logging.getLogger()
         logger.setLevel(settings.LOG_LEVEL)
         file_handler = logging.FileHandler(settings.LOG_FILE)
@@ -20,6 +23,9 @@ class Fabric_like(object):
         return logger
 
     def start(self):
+        '''
+        交互菜单
+        '''
         menu = '''
             1. Print Host List
             2. Print Group List
@@ -57,7 +63,6 @@ class Fabric_like(object):
     def active_hosts(self):
         '''
         将选中的主机添加到self.host_obj_list
-        :return:
         '''
         host_dic = self.print_list()
         self.host_obj_list = []
@@ -79,6 +84,9 @@ class Fabric_like(object):
         return True
 
     def active_group(self):
+        '''
+        将选中的组添加到self.group_obj_list
+        '''
         group_dic = self.print_group()
         self.group_obj_list = []
         example = '''
@@ -129,6 +137,10 @@ class Fabric_like(object):
         return group_list
 
     def execute_cmd(self):
+        '''
+        对选中的主机或者组执行命令
+        多线程
+        '''
         menu = '''
         1. Choose Host[s]
         2. Choose Group
@@ -170,6 +182,9 @@ class Fabric_like(object):
             print("\033[31;1mChoice must a Number...\033[0m")
 
     def GetFileList(self,dir, fileList,dirList):
+        '''
+        返回目录的文件列表和目录列表
+        '''
         newDir = dir
         if os.path.isfile(dir):
             fileList.append(dir)
@@ -184,6 +199,12 @@ class Fabric_like(object):
         return fileList,dirList
 
     def put_file(self):
+        '''
+        文件或者文件夹放在tmp目录下
+        本地文件名或文件夹名直接输入名字,如:test.file|testdir
+        远程路径输入文件夹的名字，如:/tmp
+        目前不支持重命名
+        '''
         menu = '''
                 1. Choose Host[s]
                 2. Choose Group
@@ -195,8 +216,8 @@ class Fabric_like(object):
             if choice == 1:
                 if self.active_hosts():
                     file_name = input("Input File Name/Dir Name:")
-                    if os.path.isfile(file_name) or os.path.isdir(file_name):
-                        local_file_path = os.path.abspath(file_name)
+                    local_file_path = os.path.join(settings.FILE_DIR, file_name)
+                    if os.path.isfile(local_file_path) or os.path.isdir(local_file_path):
                         remote_file_path = input("Input Remote Path:")
                     else:
                         return print("\033[31;1mFile/Dir is not exists\033[0m")
@@ -206,14 +227,14 @@ class Fabric_like(object):
                         t.setDaemon(True)
                         thread_list.append(t)
                         t.start()
-                        self.logger.info("%s put %s to %s" % (host.name, local_file_path, remote_file_path))
+                        self.logger.info("%s put file(%s) to (%s)" % (host.name, local_file_path, remote_file_path))
                     for t in thread_list:
                         t.join()
             elif choice == 2:
                 if self.active_group():
                     file_name = input("Input File Name/Dir Name:")
                     if os.path.isfile(file_name) or os.path.isdir(file_name):
-                        local_file_path = os.path.abspath(file_name)
+                        local_file_path = os.path.join(settings.FILE_DIR,file_name)
                         remote_file_path = input("Input Remote Path:")
                     else:
                         return print("\033[31;1mFile/Dir is not exists\033[0m")
@@ -225,7 +246,7 @@ class Fabric_like(object):
                             t.setDaemon(True)
                             thread_list.append(t)
                             t.start()
-                            self.logger.info("%s put %s to %s" % (host.name, local_file_path, remote_file_path))
+                            self.logger.info("%s put file(%s) to (%s)" % (host.name, local_file_path, remote_file_path))
                     for t in thread_list:
                         t.join()
             else:
@@ -234,7 +255,47 @@ class Fabric_like(object):
             print("\033[31;1mChoice must a Number...\033[0m")
 
     def get_file(self):
-        pass
+        '''
+
+        '''
+        menu = '''
+                        1. Choose Host[s]
+                        2. Choose Group
+                        '''
+        print(menu)
+        choice = input("[1/2]>>>:")
+        if choice.isdigit():
+            choice = int(choice)
+            if choice == 1:
+                if self.active_hosts():
+                    remote_file_path = input("Input File Name/Dir Name:")
+                    thread_list = []
+                    for host in self.host_obj_list:
+                        t = threading.Thread(target=host.sftp_get_file, args=(remote_file_path,))
+                        t.setDaemon(True)
+                        thread_list.append(t)
+                        t.start()
+                        self.logger.info("get file(%s) from (%s)" % (remote_file_path, host.name))
+                    for t in thread_list:
+                        t.join()
+            elif choice == 2:
+                if self.active_group():
+                    remote_file_path = input("Input File Name/Dir Name:")
+                    thread_list = []
+                    for group in self.group_obj_list:
+                        print("Group:%s".center(50, "=") % group.name)
+                        for host in group.hosts_list:
+                            t = threading.Thread(target=host.sftp_get_file, args=(remote_file_path,))
+                            t.setDaemon(True)
+                            thread_list.append(t)
+                            t.start()
+                            self.logger.info("get file(%s) from (%s)" % (remote_file_path,host.name))
+                    for t in thread_list:
+                        t.join()
+            else:
+                print("\033[31;1mWrong Number\033[0m")
+        else:
+            print("\033[31;1mChoice must a Number...\033[0m")
 
     def add_host(self):
         '''

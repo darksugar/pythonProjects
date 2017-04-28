@@ -1,5 +1,5 @@
 #Authon Ivor
-import os
+import os,stat
 import pickle
 import paramiko
 from conf import settings
@@ -59,25 +59,54 @@ class Host(object):
         if os.path.isfile(local_file_path):
             if remote_path.endswith("/"):
                 remote_path = remote_path + local_file_path.split(os.sep)[-1]
+            else:
+                remote_path = remote_path + "/" + local_file_path.split(os.sep)[-1]
             try:
                 sftp.put(local_file_path,remote_path)
             except FileNotFoundError:
                 print("\033[31;1mRemote Dir is not exists:\033[0m")
             except Exception as e:
                 print(e)
+            else:
+                print("\033[32;1mFile put done...\033[0m")
+                transport.close()
         if os.path.isdir(local_file_path):
             if remote_path.endswith("/"):
                 remote_dir = remote_path + local_file_path.split(os.sep)[-1]
             else:
                 remote_dir = remote_path + "/" +local_file_path.split(os.sep)[-1]
-            sftp.mkdir(remote_dir)
+            try:
+                sftp.mkdir(remote_dir)
+            except FileNotFoundError:
+                    sftp.mkdir(remote_path)
+                    sftp.mkdir(remote_dir)
+                    print("\033[32;1mCreate Dir %s\033[0m" % remote_path)
+                    print("\033[32;1mCreate Dir %s\033[0m" % remote_dir)
+            else:
+                print("\033[32;1mCreate Dir %s\033[0m" % remote_dir)
             for cur_dir,dir_list,file_list in os.walk(local_file_path):
                 for file_name in file_list:
                     remote_file_name = remote_dir + "/" + file_name
                     local_file_name = os.path.join(cur_dir,file_name)
-                    print(local_file_name,remote_file_name)
-                    sftp.put(local_file_name,remote_file_name)
+                    try:
+                        sftp.put(local_file_name,remote_file_name)
+                    except FileNotFoundError:
+                        print("\033[31;1mRemote Dir is not exists:\033[0m")
+                    except Exception as e:
+                        print(e)
+                    else:
+                        print("\033[32;1mDir put done...\033[0m")
         transport.close()
+    def sftp_get_file(self, remote_path):
+        transport = self.make_connect()
+        sftp = paramiko.SFTPClient.from_transport(transport)
+        sftp.listdir()
+        if os.path.isfile(remote_path):
+            pass
+        if os.path.isdir(remote_path):
+            pass
+
+
 
 class Group(object):
     def __init__(self,groupname):

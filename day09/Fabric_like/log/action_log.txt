@@ -44,3 +44,23 @@
 2017-04-27 17:03:46,445  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
 2017-04-27 17:03:46,742  INFO  paramiko.transport  Authentication (password) successful!
 2017-04-27 17:03:46,769  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-28 09:50:00,213  INFO  root  zabbix put D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\aaa.txt to /tmp/test
+2017-04-28 09:50:00,229  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-28 09:50:00,729  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-28 09:50:00,745  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-28 09:53:30,977  INFO  root  zabbix put D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\aaa to /tmp/test
+2017-04-28 09:53:30,992  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-28 09:53:31,274  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-28 09:53:31,305  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-28 09:54:32,364  INFO  root  zabbix put D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\aaa to /tmp/test
+2017-04-28 09:54:32,364  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-28 09:54:32,489  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-28 09:54:32,535  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-28 09:59:50,792  INFO  root  zabbix put D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\aaa to /tmp/ttt
+2017-04-28 09:59:50,807  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-28 09:59:51,089  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-28 09:59:51,135  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-04-28 10:08:36,512  INFO  root  zabbix put D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\aaa to /tmp/test/ttt
+2017-04-28 10:08:36,528  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-04-28 10:08:36,809  INFO  paramiko.transport  Authentication (password) successful!
+2017-04-28 10:08:36,841  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
