@@ -8,12 +8,13 @@ conn.connect(username='root',password='test83@123')
 sftp = paramiko.SFTPClient.from_transport(conn)
 
 # print(sftp.listdir("/tmp/test"))
-files = sftp.listdir_attr("/tmp/test")
-print(files)
-for file in files:
-    print(file.st_mode)
-    if stat.S_ISDIR(file.st_mode):
-        print(file)
+sftp.get("/tmp/test/aaa","D:\\test.txt")
+# files = sftp.listdir_attr("/tmp/test/1")
+# print(files)
+# for file in files:
+#     print(file.st_mode)
+#     if stat.S_ISDIR(file.st_mode):
+#         print(file)
 # print(sftp.listdir_iter("/tmp/test"))
 #上传动作
 # sftp.put('D:/aaa.txt','/tmp/test/')

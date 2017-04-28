@@ -100,11 +100,7 @@ class Host(object):
     def sftp_get_file(self, remote_path):
         transport = self.make_connect()
         sftp = paramiko.SFTPClient.from_transport(transport)
-        sftp.listdir()
-        if os.path.isfile(remote_path):
-            pass
-        if os.path.isdir(remote_path):
-            pass
+        sftp.listdir_attr()
 
 
 
