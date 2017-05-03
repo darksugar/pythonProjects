@@ -15,7 +15,7 @@ d= Dog("Wangwang")
 choice = input(">>>:")
 
 if hasattr(d,choice):
-    a = setattr(d,choice,"aaa")
+    a = setattr(d,choice,"bbb")
     print("done")
     print(d.name)
 

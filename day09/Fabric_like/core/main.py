@@ -174,8 +174,8 @@ class Fabric_like(object):
                             thread_list.append(t)
                             t.start()
                             self.logger.info("Execute CMD '%s' to host:%s" % (cmd, host.name))
-                    for t in thread_list:
-                        t.join()
+                        for t in thread_list:
+                            t.join()
             else:
                 print("\033[31;1mWrong Number\033[0m")
         else:
@@ -201,9 +201,9 @@ class Fabric_like(object):
     def put_file(self):
         '''
         文件或者文件夹放在tmp目录下
-        本地文件名或文件夹名直接输入名字,如:test.file|testdir
-        远程路径输入文件夹的名字，如:/tmp
-        目前不支持重命名
+        本地文件输入:文件名字：test.file|testdir
+        远程路径输入：文件夹的名字:/tmp
+        不支持重命名
         '''
         menu = '''
                 1. Choose Host[s]
@@ -256,7 +256,9 @@ class Fabric_like(object):
 
     def get_file(self):
         '''
-
+        获取单独文件：/tmp/testfile
+        获取文件夹：/tmp/testdir/
+        文件夹需要打斜杠
         '''
         menu = '''
                         1. Choose Host[s]
@@ -269,6 +271,7 @@ class Fabric_like(object):
             if choice == 1:
                 if self.active_hosts():
                     remote_file_path = input("Input File Name/Dir Name:")
+                    remote_file_path = remote_file_path.strip()
                     thread_list = []
                     for host in self.host_obj_list:
                         t = threading.Thread(target=host.sftp_get_file, args=(remote_file_path,))
@@ -281,6 +284,7 @@ class Fabric_like(object):
             elif choice == 2:
                 if self.active_group():
                     remote_file_path = input("Input File Name/Dir Name:")
+                    remote_file_path = remote_file_path.strip()
                     thread_list = []
                     for group in self.group_obj_list:
                         print("Group:%s".center(50, "=") % group.name)
@@ -352,7 +356,7 @@ class Fabric_like(object):
     def change_host(self):
         '''
         修改主机的参数
-        [name][ip][port][username][password][groups]
+        [name][ip][port][username][password][group]
         '''
         host_dic = self.print_list()
         host = input("Input the host name(you want change):")

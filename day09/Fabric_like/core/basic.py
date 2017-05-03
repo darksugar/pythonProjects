@@ -100,8 +100,27 @@ class Host(object):
     def sftp_get_file(self, remote_path):
         transport = self.make_connect()
         sftp = paramiko.SFTPClient.from_transport(transport)
-        sftp.listdir_attr()
+        if remote_path.endswith("/"):
+            try:
+                files = sftp.listdir_attr(remote_path)
+                for file in files:
+                    local_file_name = os.path.join(settings.FILE_DIR, file.filename)
+                    remote_file_path = remote_path + file.filename
+                    sftp.get(remote_file_path,local_file_name)
+            except Exception as e:
+                print(e)
+            else:
+                print("\033[32;1mDir get done...\033[0m")
 
+
+        else:
+            local_file_name = os.path.join(settings.FILE_DIR,remote_path.split("/")[-1])
+            try:
+                sftp.get(remote_path,local_file_name)
+            except Exception as e:
+                print(e)
+            else:
+                print("\033[32;1mFile get done...\033[0m")
 
 
 class Group(object):

@@ -64,3 +64,84 @@
 2017-04-28 10:08:36,528  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
 2017-04-28 10:08:36,809  INFO  paramiko.transport  Authentication (password) successful!
 2017-04-28 10:08:36,841  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:00:52,127  INFO  root  get file(/tmp/test/1) from (zabbix)
+2017-05-02 10:00:52,143  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:00:52,424  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:00:52,440  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:02:39,578  INFO  root  get file(/tmp/test/1) from (zabbix)
+2017-05-02 10:02:39,594  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:02:39,875  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:02:39,891  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:09:48,482  INFO  root  get file(/tmp/test/aaa/) from (zabbix)
+2017-05-02 10:09:48,482  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:09:48,763  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:09:48,779  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:10:11,002  INFO  root  get file(1) from (zabbix)
+2017-05-02 10:10:11,017  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:10:11,314  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:10:11,330  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:10:18,347  INFO  root  get file(/tmp/test/aaa/) from (zabbix)
+2017-05-02 10:10:18,347  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:10:18,472  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:10:18,503  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:11:56,335  INFO  root  get file(/tmp/test/aaa) from (zabbix)
+2017-05-02 10:11:56,351  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:11:56,632  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:11:56,663  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:12:06,009  INFO  root  get file(/tmp/test/aaa/) from (zabbix)
+2017-05-02 10:12:06,025  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:12:06,150  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:12:06,181  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:12:50,004  INFO  root  get file(/tmp/test/aaa/) from (zabbix)
+2017-05-02 10:12:50,004  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:12:50,301  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:12:50,332  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:15:18,988  INFO  root  get file(/tmp/test/aaa/) from (zabbix)
+2017-05-02 10:15:19,004  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:15:19,285  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:15:19,301  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:16:12,280  INFO  root  get file(/tmp/test/aaa/) from (zabbix)
+2017-05-02 10:16:12,296  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:16:12,577  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:16:12,608  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:17:47,918  INFO  root  zabbix put file(D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\bbb) to (/tmp/test/)
+2017-05-02 10:17:47,934  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:17:48,215  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:17:48,246  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:41:46,777  INFO  root  Execute CMD 'ls' to host:zabbix
+2017-05-02 10:41:46,777  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:41:47,074  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:41:58,983  INFO  root  Execute CMD 'ls' to host:cre237
+2017-05-02 10:41:58,983  INFO  root  Execute CMD 'ls' to host:zabbix
+2017-05-02 10:41:58,983  INFO  root  Execute CMD 'ls' to host:socket
+2017-05-02 10:41:58,983  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:41:58,999  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:41:59,124  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_4.3)
+2017-05-02 10:41:59,171  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:41:59,171  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:41:59,280  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:44:21,875  INFO  root  Execute CMD 'ls' to host:cre237
+2017-05-02 10:44:21,890  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_4.3)
+2017-05-02 10:44:22,156  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:44:22,234  INFO  root  Execute CMD 'ls' to host:zabbix
+2017-05-02 10:44:22,234  INFO  root  Execute CMD 'ls' to host:socket
+2017-05-02 10:44:22,250  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:44:22,250  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:44:22,421  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:44:22,421  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:48:39,065  INFO  root  zabbix put file(D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\bbb) to (/tmp/test)
+2017-05-02 10:48:39,065  INFO  root  socket put file(D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\bbb) to (/tmp/test)
+2017-05-02 10:48:39,065  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:48:39,081  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:48:39,409  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:48:39,409  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:48:39,440  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:48:39,440  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:49:21,872  INFO  root  zabbix put file(D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\bbb) to (/tmp/)
+2017-05-02 10:49:21,872  INFO  root  socket put file(D:\pythonProjects\oldboy\project\day09\Fabric_like/tmp\bbb) to (/tmp/)
+2017-05-02 10:49:21,872  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:49:21,888  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-05-02 10:49:22,232  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:49:22,232  INFO  paramiko.transport  Authentication (password) successful!
+2017-05-02 10:49:22,247  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
+2017-05-02 10:49:22,263  INFO  paramiko.transport.sftp  [chan 0] Opened sftp connection (server version 3)
