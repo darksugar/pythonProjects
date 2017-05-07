@@ -15,9 +15,15 @@ d= Dog("Wangwang")
 choice = input(">>>:")
 
 if hasattr(d,choice):
-    func = getattr(d,choice)
-    func()
-else:
-    setattr(d,choice,bark) #d.choice = bark
-    func = getattr(d,choice)
-    func(d)
+    a = setattr(d,choice,"bbb")
+    print("done")
+    print(d.name)
+
+
+# if hasattr(d,choice):
+#     func = getattr(d,choice)
+#     func()
+# else:
+#     setattr(d,choice,bark) #d.choice = bark
+#     func = getattr(d,choice)
+#     func(d)

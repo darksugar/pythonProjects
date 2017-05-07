@@ -5,8 +5,8 @@ private_key = paramiko.RSAKey.from_private_key_file('/home/auto/.ssh/id_rsa')
 transport = paramiko.Transport(('hostname', 22))
 transport.connect(username='wupeiqi', pkey=private_key)
 sftp = paramiko.SFTPClient.from_transport(transport)
-# ½«location.py ÉÏ´«ÖÁ·þÎñÆ÷ /tmp/test.py
+# ï¿½ï¿½location.py ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ /tmp/test.py
 sftp.put('/tmp/location.py', '/tmp/test.py')
-# ½«remove_path ÏÂÔØµ½±¾µØ local_path
+# ï¿½ï¿½remove_path ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ local_path
 sftp.get('remove_path', 'local_path')
 transport.close()
