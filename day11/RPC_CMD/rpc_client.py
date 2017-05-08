@@ -6,6 +6,7 @@ import time,random,json
 class Cmd_RPC_Client(object):
     def __init__(self):
         self.task_dic = {}
+        self.corr_id = str(uuid.uuid4())
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(
             host='localhost'))
         self.channel = self.connection.channel()
@@ -17,6 +18,7 @@ class Cmd_RPC_Client(object):
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
+            # print(self.response)
             self.response = json.loads(body.decode())
             task_id = self.response["task_id"]
             res = self.response
@@ -45,7 +47,6 @@ class Cmd_RPC_Client(object):
 
     def call(self, msg):
         self.response = None
-        self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(exchange='',
                                    routing_key='rpc_queue',
                                    properties=pika.BasicProperties(
@@ -53,6 +54,8 @@ class Cmd_RPC_Client(object):
                                        correlation_id=self.corr_id,
                                    ),
                                    body=msg)
+        self.connection.process_data_events()
+
     def check(self,cmd_list):
         self.connection.process_data_events()
         if self.task_dic.get(cmd_list[1]) is None:
@@ -67,3 +70,5 @@ while True:
     if hasattr(exec_cmd,cmd_list[0]):
         func = getattr(exec_cmd,cmd_list[0])
         func(cmd_list)
+
+#  run "df -h" --host 1.1.1.1 2.2.22.2

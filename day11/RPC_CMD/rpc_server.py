@@ -16,7 +16,7 @@ def ssh_cmd(msg):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     for host in hosts:
-        # ssh.connect(hostname=host, port=22, username="root:", password="test83@123")
+        # ssh.connect(hostname=host, port=22, username="root:", password="XXX")
         # stdin, stdout, stderr = ssh.exec_command(cmd)
         # result = stdout.read() if stdout.read() else stderr.read()
         result = "666"
