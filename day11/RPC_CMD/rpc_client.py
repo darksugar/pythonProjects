@@ -33,7 +33,7 @@ class Cmd_RPC_Client(object):
             else:
                 cmd = cmd_list[1]
                 hosts = cmd_list[3:]
-            print(cmd, hosts)
+            # print(cmd, hosts)
             task_id = str(time.time())[-4:]
             msg = {
                 "task_id":task_id,
@@ -56,19 +56,26 @@ class Cmd_RPC_Client(object):
                                    body=msg)
         self.connection.process_data_events()
 
-    def check(self,cmd_list):
+    def check_task(self,cmd_list):
         self.connection.process_data_events()
         if self.task_dic.get(cmd_list[1]) is None:
             return print("CMD is executing...")
         return print(self.task_dic.get(cmd_list[1]))
 
 exec_cmd = Cmd_RPC_Client()
+menu = '''  CMD EXAMPLE
+run "df -h" --host 1.1.1.1 2.2.22.2
+check_task 6666
+'''
+print(menu)
 while True:
     cmd = input(">>>:")
     cmd_list = cmd.strip().split(" ")
-    print(cmd_list)
+    # print(cmd_list)
     if hasattr(exec_cmd,cmd_list[0]):
         func = getattr(exec_cmd,cmd_list[0])
         func(cmd_list)
+    else:
+        print("Invalid CMD...")
 
 #  run "df -h" --host 1.1.1.1 2.2.22.2
