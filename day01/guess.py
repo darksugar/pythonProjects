@@ -3,6 +3,7 @@
 age_of_oldboy = 32
 
 count = 0
+
 while count < 3:
     guess_age = int(input("age:"))
     if guess_age == age_of_oldboy:
