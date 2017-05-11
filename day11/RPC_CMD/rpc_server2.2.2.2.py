@@ -1,37 +1,34 @@
 #Author:Ivor
 import pika
-import time,json
-import paramiko
+import subprocess,json
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
     host='localhost'))
 channel = connection.channel()
-channel.queue_declare(queue='rpc_queue')
+channel.exchange_declare(exchange='ssh_client',
+                         type='direct')
+result = channel.queue_declare(exclusive=True)
+queue_name = result.method.queue
+channel.queue_bind(exchange='ssh_client',
+                       queue=queue_name,
+                       routing_key='2.2.2.2')
 
-def ssh_cmd(msg):
-    res_msg = {}
-    hosts = msg.get("hosts")
+def execute_cmd(msg):
+    cmd = msg.get("cmd").strip('"')
     task_id = msg.get("task_id")
-    cmd = msg.get("cmd")
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    for host in hosts:
-        # ssh.connect(hostname=host, port=22, username="root:", password="XXX")
-        # stdin, stdout, stderr = ssh.exec_command(cmd)
-        # result = stdout.read() if stdout.read() else stderr.read()
-        result = "666"
-        res_msg[host] = result
-    ssh.close()
+    print(cmd)
+    result = subprocess.getoutput(cmd)
     response = {
-        "task_id": task_id,
-        "res_msg":res_msg
+        "host": '2.2.2.2',
+        "res_msg":result,
+        "task_id":task_id
     }
     response = json.dumps(response).encode()
     return response
 def on_request(ch, method, props, body):
     msg = json.loads(body.decode())
     print(msg)
-    response = ssh_cmd(msg)
+    response = execute_cmd(msg)
     ch.basic_publish(exchange='',
                      routing_key=props.reply_to,
                      properties=pika.BasicProperties(
@@ -40,5 +37,5 @@ def on_request(ch, method, props, body):
                      )
     ch.basic_ack(delivery_tag=method.delivery_tag)
 # channel.basic_qos(prefetch_count=1)
-channel.basic_consume(on_request, queue='rpc_queue')
+channel.basic_consume(on_request, queue=queue_name)
 channel.start_consuming()
