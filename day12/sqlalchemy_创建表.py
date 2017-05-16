@@ -6,9 +6,8 @@ from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, In
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy import create_engine
 
-engine = create_engine("mysql+pymysql://root:123@127.0.0.1:3306/t1", max_overflow=5)
+engine = create_engine("mysql+pymysql://root:mysql123@127.0.0.1:3306/test", max_overflow=5)
 Base = declarative_base()
-
 
 # 创建单表
 class Users(Base):
@@ -48,8 +47,10 @@ class ServerToGroup(Base):
     server_id = Column(Integer, ForeignKey('server.id'))
     group_id = Column(Integer, ForeignKey('group.id'))
 
-def init_db():
-    Base.metadata.create_all(engine)
+def init_db():#创建表结构
+    Base.metadata.create_all(engine) #可以向下寻找到子类并创建表
 
-def drop_db():
+def drop_db():#删除表
     Base.metadata.drop_all(engine)
+
+# init_db()
