@@ -14,29 +14,33 @@ Base = declarative_base()
 
 class Student(Base):
     __tablename__ = "users"
-    stu_id = Column(Integer, primary_key=True)
+    stu_id = Column(Integer, primary_key=True, nullable=False)
     stu_name = Column(String(16))
     username = Column(String(16))
     password = Column(String(16))
     qq = Column(String(16))
+    expire_date = Column(String(16))
+    status = Column(Integer)
 
     def __repr__(self):
         return "%s-%s-%s" % (self.stu_id, self.name, self.qq)
 
 class Teacher(Base):
     __tablename__ = "teachers"
-    tea_id = Column(Integer, primary_key=True)
+    tea_id = Column(Integer, primary_key=True, nullable=False)
     teacher_name = Column(String(16))
     username = Column(String(16))
     password = Column(String(16))
     qq = Column(String(16))
+    expire_date = Column(String(16))
+    status = Column(Integer)
 
     def __repr__(self):
         return "%s-%s" % (self.tea_id, self.teacher_name)
 
 class Class(Base):
     __tablename__ = "classes"
-    class_id = Column(Integer, primary_key=True)
+    class_id = Column(Integer, primary_key=True, nullable=False)
     class_name = Column(String(32))
     tea_id = Column(Integer)
     stu_num = Column(Integer)
@@ -47,8 +51,8 @@ class Class(Base):
 class Stu_Class_Realationship(Base):
     __tablename__ = "stu_class_relationship"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    stu_id = Column(Integer)
-    class_id = Column(Integer)
+    stu_id = Column(Integer, nullable=False)
+    class_id = Column(Integer, nullable=False)
 
     def __repr__(self):
         return "%s-%s" % (self.stu_id, self.class_id)
@@ -56,8 +60,8 @@ class Stu_Class_Realationship(Base):
 class Score(Base):
     __tablename__ = "score"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    stu_id = Column(Integer)
-    class_id = Column(Integer)
+    stu_id = Column(Integer, nullable=False)
+    class_id = Column(Integer, nullable=False)
     submit_type = Column(Integer,default=0)
     score = Column(Integer)
 
@@ -70,5 +74,7 @@ def init_db():
 def drop_db():
     Base.metadata.drop_all(engine)
 
-Session = sessionmaker(bind=engine)
-session = Session()
+# Session = sessionmaker(bind=engine)
+# session = Session()
+# drop_db()
+# init_db()

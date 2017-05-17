@@ -19,7 +19,6 @@ trans_logger = logger.logger('transaction')
 #access logger
 access_logger = logger.logger('access')
 
-
 #temp account data ,only saves the data in memory
 user_data = {
     'account_id':None,
