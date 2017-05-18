@@ -2,14 +2,7 @@
 import os,sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
-import logging
 
-LOG_LEVEL = logging.INFO
-LOG_TYPES = {
-    'transaction': 'transactions.log',
-    'access': 'access.log',
-    'manage':'management.log'
-            }
 
 db_user = "root"
 db_pass = "mysql123"

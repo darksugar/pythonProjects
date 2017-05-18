@@ -1,13 +1,7 @@
 #Authon Ivor
 from core import auth
-from core.auth import login_required
+from core.teacher_func import Class_Manage,Class_record_Manage,Score_Manage
 from conf import settings
-
-# from core import logger
-# #transaction logger
-# trans_logger = logger.logger('transaction')
-# #access logger
-# access_logger = logger.logger('access')
 
 user_data = {
     'account_id':None,
@@ -15,7 +9,35 @@ user_data = {
     'account_data':None
 }
 
-def interactive(acc_data):
+def tea_interactive(acc_data):
+    '''
+    interact with user
+    :return:
+    '''
+    menu = u'''
+    ------- Teacher VIew ---------
+    \033[32;1m 1.  管理班级
+    2.  管理上课记录
+    3.  管理成绩
+    4.  退出
+    \033[0m'''
+    menu_dic = {
+        '1': Class_Manage,
+        '2': Class_record_Manage,
+        '3': Score_Manage,
+        '4': exit
+    }
+    while True:
+        print(menu)
+        user_option = input(">>:").strip()
+        if user_option in menu_dic:
+            # print('accdata',acc_data)
+            #acc_data['is_authenticated'] =False
+            menu_dic[user_option](acc_data)
+        else:
+            print("\033[31;1mOption does not exist!\033[0m")
+
+def stu_interactive(acc_data):
     '''
     interact with user
     :return:
@@ -47,13 +69,16 @@ def interactive(acc_data):
             menu_dic[user_option](acc_data)
         else:
             print("\033[31;1mOption does not exist!\033[0m")
+
 def tea_auth():
-    acc_data = auth.acc_login(user_data)
+    acc_data = auth.acc_login(user_data,user_type='T')
     if user_data['is_authenticated']:
         user_data['account_data'] = acc_data
-        interactive(user_data)
+        print(user_data)
+        tea_interactive(user_data)
 def stu_auth():
-    acc_data = auth.acc_login(user_data)
+    acc_data = auth.acc_login(user_data,user_type='S')
     if user_data['is_authenticated']:
         user_data['account_data'] = acc_data
-        interactive(user_data)
+        print(user_data)
+        stu_interactive(user_data)
