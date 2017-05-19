@@ -34,6 +34,11 @@ class Get_score(object):
 class Get_ranking(object):
     def __init__(self, user_data):
         db_api = self.db_conn()
+        class_id_list = db_api.get_class_by_stu_id(user_data["account_data"].stu_id)
+        class_id = input("Input class id:")
+        if int(class_id) in class_id_list:
+            db_api.get_ranking(class_id)
+
 
     def db_conn(self):
         db_api = db_handler.db_handler()

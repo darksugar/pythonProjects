@@ -115,3 +115,14 @@ class db_handler(object):
         self.session.commit()
         if res:
             return True
+
+    def get_ranking(self,class_id):
+        score_obj = self.session.query(Student.stu_name,Student_record.lesson_name,Student_record.score)\
+                        .filter(Student_record.stu_id==Student.stu_id)\
+                        .filter(Student_record.class_id==class_id)\
+                        .filter(Student_record.score != "")\
+                        .order_by(Student_record.score.asc())
+        rank = 1
+        for stu_name,lesson_name,score in score_obj:
+            print("Rank:%s Student Name:%s  Lesson Name:%s Student score:%s" % (rank,stu_name,lesson_name,score))
+            rank += 1
