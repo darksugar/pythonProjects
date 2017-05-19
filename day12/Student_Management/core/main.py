@@ -1,6 +1,7 @@
 #Authon Ivor
 from core import auth
 from core.teacher_func import Class_Manage,Class_record_Manage,Score_Manage
+from core.student_func import Hand_work,Get_score,Get_ranking
 from conf import settings
 
 user_data = {
@@ -44,20 +45,14 @@ def stu_interactive(acc_data):
     '''
     menu = u'''
     ------- Virtual  Bank ---------
-    \033[32;1m 1.  账户信息
-    2.  还款
-    3.  取款
-    4.  转账
-    5.  账单
-    6.  退出
+    \033[32;1m 1.  提交作业
+    2.  查看成绩
+    3.  查看班级排名
     \033[0m'''
     menu_dic = {
-        '1': account_info,
-        '2': repay,
-        '3': withdraw,
-        '4': transfer,
-        '5': order_history,
-        '6': logout,
+        '1': Hand_work,
+        '2': Get_score,
+        '3': Get_ranking,
     }
     exit_flag = False
     while not exit_flag:

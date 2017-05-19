@@ -23,7 +23,7 @@ class Student(Base):
     status = Column(Integer)
 
     def __repr__(self):
-        return "%s-%s-%s" % (self.stu_id, self.name, self.qq)
+        return "%s-%s-%s" % (self.stu_id, self.stu_name, self.qq)
 
 class Teacher(Base):
     __tablename__ = "teachers"
