@@ -39,18 +39,26 @@ class db_handler(object):
             print("Class id:%s Class Name:%s" % (class_id,class_name))
         return class_id_list
 
-    def get_lesson_by_class_id(self,class_id,sut_id):
-        lesson_obj = self.session.query(Student_record).filter_by(class_id=class_id,stu_id=sut_id).all()
+    # def get_score_by_class_id(self,stu_id, class_id, lesson_name):
+    #     lesson_obj = self.session.query(Student_record).filter_by(class_id=class_id, stu_id=stu_id).all()
+    #     for lesson in lesson_obj:
+    #         print("Lesson name:%s Score:%s" % (lesson.lesson_name, lesson.score if lesson.submit_type else "作业未交"))
+
+    def get_score_by_class_id(self,class_id,stu_id):
+        lesson_obj = self.session.query(Student_record).filter_by(class_id=class_id, stu_id=stu_id).all()
+        for lesson in lesson_obj:
+            print("Lesson name:%s Score:%s" % (lesson.lesson_name, lesson.score if lesson.submit_type else "作业未交"))
+
+    def get_lesson_by_class_id(self,class_id,stu_id):
+        lesson_obj = self.session.query(Student_record).filter_by(class_id=class_id,stu_id=stu_id).all()
         for lesson in lesson_obj:
             print("Lesson name:%s Hand in:%s" % (lesson.lesson_name,"已交"if lesson.submit_type else "未交"))
 
     def hand_in_homework(self,stu_id,class_id,lesson_name):
         self.session.query(Student_record).filter_by(stu_id=stu_id,class_id=class_id,lesson_name=lesson_name)\
-            .update({"submit_type":1})
+            .update({"submit_type":1,"score":0})
         self.session.commit()
         return True
-
-
 
     def add_class(self,class_name,tea_id):
         class_obj = self.get_class(class_name)
