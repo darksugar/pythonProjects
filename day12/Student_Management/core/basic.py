@@ -85,39 +85,40 @@ def init_db():
 def drop_db():
     Base.metadata.drop_all(engine)
 
-# Session = sessionmaker(bind=engine)
-# session = Session()
-# drop_db()
-# init_db()
-# teacher = Teacher(teacher_name = 'ivor',
-#                   username = 'ivor',
-#                   password = 'ivor',
-#                   qq =321,
-#                   expire_date ='20171111',
-#                   status = 0
-#                   )
-# student1 = Student(stu_name = 'foo',
-#                   username = 'foo',
-#                   password = 'foo',
-#                   qq =123,
-#                   expire_date ='20171111',
-#                   status = 0
-#                   )
-# student2 = Student(stu_name = 'coo',
-#                   username = 'coo',
-#                   password = 'coo',
-#                   qq =1234,
-#                   expire_date ='20171111',
-#                   status = 0
-#                   )
-# student3 = Student(stu_name = 'too',
-#                   username = 'too',
-#                   password = 'too',
-#                   qq =12345,
-#                   expire_date ='20171111',
-#                   status = 0
-#                   )
-# session.add_all(
-#     [teacher,student1,student2,student3]
-# )
-# session.commit()
+if __name__ == '__main__':
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    drop_db()
+    init_db()
+    teacher = Teacher(teacher_name = 'ivor',
+                      username = 'ivor',
+                      password = 'ivor',
+                      qq =321,
+                      expire_date ='20171111',
+                      status = 0
+                      )
+    student1 = Student(stu_name = 'foo',
+                      username = 'foo',
+                      password = 'foo',
+                      qq =123,
+                      expire_date ='20171111',
+                      status = 0
+                      )
+    student2 = Student(stu_name = 'coo',
+                      username = 'coo',
+                      password = 'coo',
+                      qq =1234,
+                      expire_date ='20171111',
+                      status = 0
+                      )
+    student3 = Student(stu_name = 'too',
+                      username = 'too',
+                      password = 'too',
+                      qq =12345,
+                      expire_date ='20171111',
+                      status = 0
+                      )
+    session.add_all(
+        [teacher,student1,student2,student3]
+    )
+    session.commit()

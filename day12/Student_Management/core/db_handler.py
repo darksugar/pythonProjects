@@ -23,6 +23,14 @@ class db_handler(object):
         class_obj = self.session.query(Class).filter_by(class_name=class_name).first()
         return class_obj
 
+    def get_all_class(self):
+        class_obj = self.session.query(Class.class_id,Class.class_name).all()
+        return class_obj
+
+    def get_all_student(self):
+        student_obj = self.session.query(Student.stu_id,Student.stu_name,Student.qq).all()
+        return student_obj
+
     def get_student_byqq(self,qq):
         student_obj = self.session.query(Student).filter_by(qq=qq).first()
         return student_obj
@@ -121,7 +129,7 @@ class db_handler(object):
                         .filter(Student_record.stu_id==Student.stu_id)\
                         .filter(Student_record.class_id==class_id)\
                         .filter(Student_record.score != "")\
-                        .order_by(Student_record.score).all()
+                        .order_by(Student_record.score.desc()).all()
         rank = 1
         for stu_name,lesson_name,score in score_obj:
             print("Rank:%s Student Name:%s  Lesson Name:%s Student score:%s" % (rank,stu_name,lesson_name,score))

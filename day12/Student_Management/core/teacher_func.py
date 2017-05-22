@@ -28,9 +28,16 @@ class Class_Manage(object):
             print("Class %s added..." % class_name)
 
     def add_student2class(self,user_data):
-        class_name = input("Input the class name:")
-        qq_num = input("Input the qq of student:")
         db_api = self.db_conn()
+        class_obj = db_api.get_all_class()
+        for class_id,class_name in class_obj:
+            print("Class id:%s Class name:%s " % (class_id,class_name))
+        student_obj = db_api.get_all_student()
+        class_name = input("Input the class name:")
+        for stu_id,stu_name,qq in student_obj:
+            print("Student id:%s Student Name:%s Student qq:%s" % (stu_id,stu_name,qq))
+        qq_num = input("Input the qq of student:")
+
         res = db_api.add_student2class(class_name,qq_num)
         if res:
             print("Student added...")
@@ -82,6 +89,7 @@ class Score_Manage(object):
         lesson_name = input("Input lesson name:")
         db_api = self.db_conn()
         id_list = db_api.get_score(user_data["account_data"].tea_id,lesson_name,class_name)
+        if not id_list:return
         for count in range(len(id_list)):
             stu_id = input("Input the student id:")
             score = input("Input the  Score:")
