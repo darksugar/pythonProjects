@@ -35,6 +35,10 @@ class db_handler(object):
         student_obj = self.session.query(Student).filter_by(qq=qq).first()
         return student_obj
 
+    def get_class_student(self):
+        obj = self.session.query(Stu_Class_Realationship).all()
+        return obj
+
     def get_class_by_stu_id(self,stu_id):
         student_obj = self.session.query(Student).filter_by(stu_id=stu_id).first()
         class_obj = self.session.query(Stu_Class_Realationship.class_id,Class.class_name)\

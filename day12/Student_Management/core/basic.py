@@ -51,8 +51,11 @@ class Class(Base):
 class Stu_Class_Realationship(Base):
     __tablename__ = "stu_class_relationship"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    stu_id = Column(Integer, nullable=False)
-    class_id = Column(Integer, nullable=False)
+    stu_id = Column(Integer, ForeignKey('students.stu_id'))
+    class_id = Column(Integer,ForeignKey('classes.class_id'))
+
+    stu = relationship("Student",foreign_keys=stu_id)
+    classes = relationship("Class",foreign_keys=class_id)
 
     def __repr__(self):
         return "%s-%s" % (self.stu_id, self.class_id)

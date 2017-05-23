@@ -6,10 +6,12 @@ class Class_Manage(object):
         menu = '''
         1.  添加班级
         2.  添加学员到班级
+        3.  查看学员
         '''
         menu_dic = {
             '1':self.add_class,
             '2':self.add_student2class,
+            '3':self.get_stu_class,
         }
         print(menu)
         choice = input("[1/2]>>>:")
@@ -41,6 +43,12 @@ class Class_Manage(object):
         res = db_api.add_student2class(class_name,qq_num)
         if res:
             print("Student added...")
+
+    def get_stu_class(self,user_data):
+        db_api = self.db_conn()
+        obj = db_api.get_class_student()
+        for i in obj:
+            print("Student Name:%s Class Name:%s" % (i.stu.stu_name,i.classes.class_name))
 
 class Class_record_Manage(object):
     def __init__(self, user_data):
