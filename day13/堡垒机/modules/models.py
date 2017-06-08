@@ -2,7 +2,7 @@
 __author__ = 'Alex Li'
 
 
-from sqlalchemy import create_engine,Table
+from sqlalchemy import create_engine,Table,types
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String,ForeignKey,UniqueConstraint,UnicodeText,DateTime
 from sqlalchemy.orm import relationship
@@ -51,8 +51,8 @@ class RemoteUser(Base):
         (u'ssh-key',u'SSH/KEY'),
     ]
     id = Column(Integer,primary_key=True,autoincrement=True)
-    auth_type = Column(ChoiceType(AuthTypes))
-    username = Column(String(64),nullable=False)
+    auth_type = Column(ChoiceType(AuthTypes,impl=types.Unicode(32)))
+    username = Column(String(16),nullable=False)
     password = Column(String(255))
 
     __table_args__ = (UniqueConstraint('auth_type', 'username','password', name='_user_passwd_uc'),)
@@ -114,14 +114,6 @@ class AuditLog(Base):
     user_id = Column(Integer,ForeignKey('user_profile.id'))
     bind_host_id = Column(Integer,ForeignKey('bind_host.id'))
     action_choices = [
-        (0,'CMD'),
-        (1,'Login'),
-        (2,'Logout'),
-        (3,'GetFile'),
-        (4,'SendFile'),
-        (5,'Exception'),
-    ]
-    action_choices2 = [
         (u'cmd',u'CMD'),
         (u'login',u'Login'),
         (u'logout',u'Logout'),
@@ -129,11 +121,9 @@ class AuditLog(Base):
         #(4,'SendFile'),
         #(5,'Exception'),
     ]
-    action_type = Column(ChoiceType(action_choices2))
-    #action_type = Column(String(64))
+    action_type = Column(ChoiceType(action_choices))
     cmd = Column(String(255))
     date = Column(DateTime)
-
     user_profile = relationship("UserProfile")
     bind_host = relationship("BindHost")
     '''def __repr__(self):

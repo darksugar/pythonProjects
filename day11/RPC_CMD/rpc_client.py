@@ -8,8 +8,10 @@ class Cmd_RPC_Client(object):
         self.task_dic = {}
         self.corr_id = str(uuid.uuid4())
         #实例连接
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host='localhost'))
+        username = 'root'  # 指定远程rabbitmq的用户名密码
+        pwd = 'root'
+        user_pwd = pika.PlainCredentials(username, pwd)
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.116.131', credentials=user_pwd))
         #实例频道
         self.channel = self.connection.channel()
         #实例消息返回队列
@@ -79,6 +81,7 @@ class Cmd_RPC_Client(object):
                     continue
                 print(k.center(50,"-"))
                 print(v)
+                return True
         return print("CMD is executing...")
 
         # for res_key in self.task_dic.get(cmd_list[1]):

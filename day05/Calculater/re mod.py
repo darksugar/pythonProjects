@@ -21,6 +21,7 @@ begin_time = datetime.datetime.now()
 a = a.replace(" ","")
 while True:
     b = re.search(r'\([^()]+\)',a)
+    print(b)
     if b:
         c = re.search('\d+\.?\d*/(\+|\-)?\d+\.?\d*',b.group())
         if c:

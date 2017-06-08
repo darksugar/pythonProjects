@@ -1,7 +1,5 @@
 #_*_coding:utf-8_*_
 __author__ = 'Alex Li'
-
-
 from conf import settings
 from conf import action_registers
 from modules import utils
@@ -17,6 +15,11 @@ def help_msg():
         print("\t",key)
 
 def excute_from_command_line(argvs):
+    '''
+    判断
+    :param argvs:
+    :return:
+    '''
     if len(argvs) < 2:
         help_msg()
         exit()

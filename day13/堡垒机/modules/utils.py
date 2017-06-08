@@ -1,7 +1,6 @@
 #_*_coding:utf-8_*_
 __author__ = 'Alex Li'
 
-
 from conf import settings
 import yaml
 try:

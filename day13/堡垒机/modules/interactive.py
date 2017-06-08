@@ -41,14 +41,12 @@ def interactive_shell(chan,user_obj,bind_host_obj,cmd_caches,log_recording):
 
 def posix_shell(chan,user_obj,bind_host_obj,cmd_caches,log_recording):
     import select
-    
     oldtty = termios.tcgetattr(sys.stdin)
     try:
         tty.setraw(sys.stdin.fileno())
         tty.setcbreak(sys.stdin.fileno())
         chan.settimeout(0.0)
         cmd = ''
-
         tab_key = False
         while True:
             r, w, e = select.select([chan, sys.stdin], [], [])
@@ -72,7 +70,6 @@ def posix_shell(chan,user_obj,bind_host_obj,cmd_caches,log_recording):
                 if '\r' != x:
                     cmd +=x
                 else:
-
                     print('cmd->:',cmd)
                     log_item = models.AuditLog(user_id=user_obj.id,
                                           bind_host_id=bind_host_obj.id,
@@ -82,16 +79,13 @@ def posix_shell(chan,user_obj,bind_host_obj,cmd_caches,log_recording):
                                           )
                     cmd_caches.append(log_item)
                     cmd = ''
-
-                    if len(cmd_caches)>=10:
-                        log_recording(user_obj,bind_host_obj,cmd_caches)
-                        cmd_caches = []
+                    log_recording(user_obj,bind_host_obj,cmd_caches)
+                    cmd_caches = []
                 if '\t' == x:
                     tab_key = True
                 if len(x) == 0:
                     break
                 chan.send(x)
-
     finally:
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, oldtty)
 

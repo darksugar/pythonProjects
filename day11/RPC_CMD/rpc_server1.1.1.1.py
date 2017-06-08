@@ -2,8 +2,10 @@
 import pika
 import subprocess,json
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='localhost'))
+username = 'root'  # 指定远程rabbitmq的用户名密码
+pwd = 'root'
+user_pwd = pika.PlainCredentials(username, pwd)
+connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.116.131', credentials=user_pwd))
 channel = connection.channel()
 channel.exchange_declare(exchange='ssh_client',
                          type='direct')

@@ -1,6 +1,5 @@
 #_*_coding:utf-8_*_
 __author__ = 'Alex Li'
-
 from sqlalchemy import create_engine,Table
 from  sqlalchemy.orm import sessionmaker
 

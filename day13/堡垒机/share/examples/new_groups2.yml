@@ -9,7 +9,6 @@ bj_group:
 sh_group:
   user_profiles:
     - jack
-    - alex
     - rain
 
 

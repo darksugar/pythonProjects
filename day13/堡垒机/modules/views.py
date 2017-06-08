@@ -1,11 +1,11 @@
 #_*_coding:utf-8_*_
 __author__ = 'Alex Li'
-
 from modules import models
 from modules.db_conn import engine,session
 from modules.utils import print_err,yaml_parser
 from modules import common_filters
 from modules import ssh_login
+
 def auth():
     '''
     do the user login authentication
@@ -32,8 +32,6 @@ def welcome_msg(user):
     ------------- Welcome [%s] login LittleFinger -------------
     \033[0m'''%  user.username
     print(WELCOME_MSG)
-
-
 
 def log_recording(user_obj,bind_host_obj,logs):
     '''
@@ -104,7 +102,6 @@ def start_session(argvs):
                 else:
                     print("no this option..")
 
-
 def stop_server(argvs):
     pass
 
@@ -123,18 +120,19 @@ def create_users(argvs):
     if source:
         for key,val in source.items():
             print(key,val)
-            obj = models.UserProfile(username=key,password=val.get('password'))
+            user_obj = models.UserProfile(username=key,password=val.get('password'))
             if val.get('groups'):
                 groups = session.query(models.Group).filter(models.Group.name.in_(val.get('groups'))).all()
                 if not groups:
                     print_err("none of [%s] exist in group table." % val.get('groups'),quit=True)
-                obj.groups = groups
+                user_obj.groups = groups
             if val.get('bind_hosts'):
                 bind_hosts = common_filters.bind_hosts_filter(val)
-                obj.bind_hosts = bind_hosts
+                user_obj.bind_hosts = bind_hosts
             #print(obj)
-            session.add(obj)
+            session.add(user_obj)
         session.commit()
+
 def create_groups(argvs):
     '''
     create groups
@@ -159,6 +157,7 @@ def create_groups(argvs):
                 obj.user_profiles = user_profiles
             session.add(obj)
         session.commit()
+
 def create_hosts(argvs):
     '''
     create hosts
@@ -176,6 +175,7 @@ def create_hosts(argvs):
             obj = models.Host(hostname=key,ip_addr=val.get('ip_addr'), port=val.get('port') or 22)
             session.add(obj)
         session.commit()
+
 def create_bindhosts(argvs):
     '''
     create bind hosts
