@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title></title>
+ <style>
+ *{
+ margin:0;
+ padding:0;
+ list-style: none;
+ }
+ div{
+ position: relative;
+ width: 800px;
+ height: 200px;
+ border: 5px solid lightgreen;
+ margin:10px auto;
+ overflow: hidden;
+ }
+ div ul{
+ position: absolute;
+ left:0;
+ top:0;
+ }
+ div ul li{
+ width: 200px;
+ height: 200px;
+ float: left;
+ }
+ div ul li img{
+ width:100%;
+ height: 100%;
+ }
+ </style>
+</head>
+<body>
+<div id="div1">
+ <ul>
+ <li><img src="http://www.qdfuns.com/misc.php?mod=attach&genre=editor&aid=b4251f00ef925cba01ed49ca117e14a7" alt=""/></li>
+ <li><img src="http://www.qdfuns.com/misc.php?mod=attach&genre=editor&aid=d38403825519770211acbf49459ae7d7" alt=""/></li>
+ <li><img src="http://www.qdfuns.com/misc.php?mod=attach&genre=editor&aid=53c83d39c62af65db998f4945bacaec2" alt=""/></li>
+ <li><img src="http://www.qdfuns.com/misc.php?mod=attach&genre=editor&aid=5509f1a642644b40c8aa98c9e2c77a83" alt=""/></li>
+ </ul>
+</div>
+<script>
+ var oUl=document.getElementsByTagName('ul')[0];
+ var lis=oUl.getElementsByTagName('li');
+ oUl.innerHTML+=oUl.innerHTML;
+ oUl.style.width=lis.length*lis[0].offsetWidth+'px';
+ var left=null;
+ var timer=setInterval(function(){
+ left-=3;
+ if(left<-oUl.offsetWidth/2){
+ left=0;
+ }
+ oUl.style.left=left+'px'
+ },10)
+</script>
+</body>
+</html>

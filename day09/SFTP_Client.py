@@ -1,12 +1,10 @@
 #Authon Ivor
-import stat
 import paramiko
 #创建一个连接
 conn = paramiko.Transport(('10.0.2.57',22))
 conn.connect(username='root',password='test83@123')
 #通过连接实例，创建一个FTPClient实例
 sftp = paramiko.SFTPClient.from_transport(conn)
-
 # print(sftp.listdir("/tmp/test"))
 # files = sftp.listdir_attr("/tmp/test/1")
 # print(files)

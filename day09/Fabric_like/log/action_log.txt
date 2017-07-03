@@ -154,3 +154,17 @@
 2017-06-09 10:27:02,734  INFO  root  Execute CMD 'ls /usr/local/' to host:zabbix
 2017-06-09 10:27:02,744  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
 2017-06-09 10:27:02,856  INFO  paramiko.transport  Authentication (password) successful!
+2017-06-16 14:21:50,298  INFO  root  Execute CMD 'dir' to host:zabbix
+2017-06-16 14:21:50,298  INFO  root  Execute CMD 'dir' to host:socket
+2017-06-16 14:22:20,452  INFO  root  Execute CMD 'dir' to host:zabbix
+2017-06-16 14:22:20,452  INFO  root  Execute CMD 'dir' to host:socket
+2017-06-16 14:22:20,467  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-06-16 14:22:21,233  INFO  paramiko.transport  Authentication (password) successful!
+2017-06-16 14:22:23,468  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-06-16 14:22:23,608  INFO  paramiko.transport  Authentication (password) successful!
+2017-06-16 15:03:17,572  INFO  root  Execute CMD 'ls /home/' to host:zabbix
+2017-06-16 15:03:17,572  INFO  root  Execute CMD 'ls /home/' to host:socket
+2017-06-16 15:03:17,650  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-06-16 15:03:17,650  INFO  paramiko.transport  Connected (version 2.0, client OpenSSH_5.3)
+2017-06-16 15:03:18,354  INFO  paramiko.transport  Authentication (password) successful!
+2017-06-16 15:03:18,354  INFO  paramiko.transport  Authentication (password) successful!

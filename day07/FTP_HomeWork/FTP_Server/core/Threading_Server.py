@@ -7,7 +7,7 @@ import subprocess
 import hashlib
 from conf import settings
 STATUS_CODE = {
-    250: "Invalid cmd format,e.g:{'action':'get','filename':'test.py','size':344",
+    250: "Invalid cmd format,e.g:{'action':'get','filename':'51cto_client.py','size':344",
     251: "Invalid cmd",
     252: "Invalid auth data",
     253: "Incorrect username or password",

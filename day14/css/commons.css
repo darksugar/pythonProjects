@@ -1,0 +1,50 @@
+div{
+    height: 48px;  /*高度*/
+    width: 80%;     /*宽度*/
+    border: 1px solid red;  /*边框*/
+    font-size:16px;     /*字体大小*/
+    text-align: center;     /*水平方向文字居中*/
+    line-height: 48;        /*垂直方向根据标签高度居中*/
+    font-weight: bold;      /*字体加粗*/
+
+}
+
+#i1 {
+    background-color: #6F6266;
+    height: 48px;
+}
+
+#i2 {
+    background-color: #6F6266;
+    height: 48px;
+}
+
+.c1 {
+    background-color: antiquewhite;
+    height: 15px;
+}
+
+div {
+    background-color: rebeccapurple;
+    color: white;
+}
+
+span div {
+    background-color: black;
+    color: white;
+}
+
+.c1 div {
+    background-color: antiquewhite;
+    height: 15px;
+}
+
+input[type='text'] {
+    background-color: antiquewhite;
+    height: 15px;
+}
+
+.c1[n='666'] {
+    background-color: black;
+    height: 15px;
+}

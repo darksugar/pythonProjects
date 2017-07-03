@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .zhezhaoceng {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: gray;
+            opacity: 0.6;
+            z-index: 9;
+        }
+
+        .tanchukuang {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            margin-left: -150px;
+            margin-top: -150px;
+            background-color: white;
+            z-index: 10;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body style="margin: 0;">
+<div>
+    <input onclick="showModel()" type="button" value="添加"/>
+    <input onclick="chooseAll()" type="button" value="全选"/>
+    <input onclick="cancelAll()" type="button" value="取消"/>
+    <input onclick="reverseAll()" type="button" value="反选"/>
+    <p>
+    <table>
+        <thead>
+        <tr>
+            <th>选择</th>
+            <th>主机名</th>
+            <th>端口号</th>
+        </tr>
+        </thead>
+        <tbody id="tb">
+        <tr>
+            <td><input type="checkbox"/></td>
+            <td>10.0.1.237</td>
+            <td>2323</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"/></td>
+            <td>10.0.1.238</td>
+            <td>3322</td>
+        </tr>
+        </tbody>
+    </table>
+    </p>
+</div>
+<div id="i1" class="zhezhaoceng hide"></div>
+<div id="i2" class="tanchukuang hide">
+    <input type="text"/>
+    <input type="text"/>
+    <input type="button" value="确认"/>
+    <input onclick="hideModel()" type="button" value="取消"/>
+</div>
+<script>
+    function showModel() {
+        document.getElementById('i1').classList.remove('hide');
+        document.getElementById('i2').classList.remove('hide');
+    }
+    function hideModel() {
+        document.getElementById('i1').classList.add('hide');
+        document.getElementById('i2').classList.add('hide');
+    }
+    function chooseAll() {
+        var t_body = document.getElementById('tb');
+        var tr_list = t_body.children;
+        for (var i = 0; i < tr_list.length; i++) {
+            var current_tr = tr_list[i];
+            var checkbox = current_tr.children[0].children[0];
+            checkbox.checked = true;
+        }
+    }
+    function cancelAll() {
+        var t_body = document.getElementById('tb');
+        var tr_list = t_body.children;
+        for (var i = 0; i < tr_list.length; i++) {
+            var current_tr = tr_list[i];
+            var checkbox = current_tr.children[0].children[0];
+            checkbox.checked = false;
+        }
+    }
+    function reverseAll() {
+        var t_body = document.getElementById('tb');
+        var tr_list = t_body.children;
+        for (var i = 0; i < tr_list.length; i++) {
+            var current_tr = tr_list[i];
+            var checkbox = current_tr.children[0].children[0];
+            if (checkbox.checked) {
+                checkbox.checked = false;
+            }
+            else {
+                checkbox.checked = true;
+            }
+        }
+    }
+</script>
+</body>
+</html>

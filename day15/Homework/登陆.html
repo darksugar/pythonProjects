@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎登陆</title>
+    <style>
+        body{
+            margin:0;
+        }
+        .pg-header {
+            line-height: 100px;
+        }
+        .header {
+            width: 980px;
+            height: 100px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+        .pg-body {
+            background-color: #a51823;
+            height: 475px;
+        }
+        .body {
+            position: relative;
+            width: 990px;
+            height: 475px;
+            margin: 0 auto;
+            background-image: url(image/banner.jpg);
+        }
+        .login-box {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            margin-top: -173px;
+            width: 310px;
+            height: 346px;
+            background-color: white;
+        }
+        .login-box-label {
+            width: 310px;
+            height: 55px;
+            border-bottom: 1px solid #bdbdbd;
+            line-height: 55px;
+            text-align: center;
+            color: #a51823;
+            font-size: 19px;
+            font-weight: bold;
+        }
+        .login-box-body {
+            position: relative;
+            width: 248px;
+            height: 220px;
+            margin: 0 auto;
+            /*border:1px solid gray;*/
+        }
+        .usertext {
+            position: absolute;
+            top: 28px;
+            height: 38px;
+            width: 248px;
+            border: 1px solid #bdbdbd;
+        }
+        .login-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: url(image/icons.png);
+            background-position: 0 0;
+            border-right: 1px solid #bdbdbd;
+            width: 38px;
+            height: 38px;
+        }
+        .login-text {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 36px;
+            width: 208px;
+            border: 0;
+        }
+        .password {
+            position: absolute;
+            top: 96px;
+            height: 38px;
+            width: 248px;
+            border: 1px solid #bdbdbd;
+        }
+        .pass-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: url(image/icons.png);
+            background-position: -48px 0;
+            border-right: 1px solid #bdbdbd;
+            width: 38px;
+            height: 38px;
+        }
+        .pass-text {
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 36px;
+            width: 208px;
+            border: 0;
+        }
+        .input{
+            position: absolute;
+            bottom:0;
+            background-color: #a51823;
+
+        }
+        .input:hover{
+            background-color: #d84040;
+        }
+        .input-button{
+            background-color: #a51823;
+            line-height: 38px;
+            text-align: center;
+            color: white;
+            width: 248px;
+            height:38px;
+            font-size: 18px;
+        }
+        .pg-foot{
+            margin: 0 auto;
+        }
+        .foot{
+            width:980px;
+            height:50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        .login-box-foot{
+            position: absolute;
+            bottom:0;
+            width:310px;
+            height:38px;
+            line-height:38px;
+            border-top:1px solid #fcfcfc;
+            background-color: #fcfcfc;
+        }
+        .qq-link{
+            position: absolute;
+            left:20px;
+            width:50px;
+            height:38px;
+        }
+        .weixin-link {
+            position: absolute;
+            left: 80px;
+            width: 50px;
+            height: 38px;
+        }
+        .line{
+            position: absolute;
+            left: 60px;
+            width: 50px;
+            height: 38px;
+        }
+        .zhuce-link{
+            position: absolute;
+            right:0;
+            width:75px;
+            height:38px;
+            color: #a51823;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+<div class="pg-header">
+    <div class="header">
+        <img src="image/logo.PNG" style="width: 170px;height: 60px;"/>
+        <img src="image/l-icon.png" style="width: 110px;height: 40px;">
+    </div>
+</div>
+<div class="pg-body">
+    <div class="body">
+        <div class="login-box">
+            <div class="login-box-label">账 户 登 陆</div>
+            <div class="login-box-body">
+                <!--<div class="alert-text"></div>-->
+                <div class="usertext">
+                    <label for="login-text" class="login-label"></label>
+                    <input id="login-text" class="login-text" type="text"/>
+                </div>
+                <div class="password">
+                    <label for="pass-text" class="pass-label"></label>
+                    <input id="pass-text" type="text" class="pass-text"/>
+                </div>
+                <a class="input" href="注册.html" >
+                    <input class="input-button" type="button" value="登&nbsp&nbsp录">
+                </a>
+            </div>
+            <div class="login-box-foot">
+                <div class="qq-link">
+                    <a>QQ</a>
+                </div>
+                <div class="weixin-link">
+                    <a>微信</a>
+                </div>
+                <div class="line">|</div>
+                <div class="zhuce-link">
+                    <a href="注册.html" style="text-decoration: none;color: #a51823;">立即注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pg-foot">
+    <div class="foot">
+        <a >关于我们</a> |
+        <a>联系我们</a>  |
+        <a>人才招聘</a>  |
+        <a>广告服务</a>  |
+        <a>商家入驻</a>  |
+        <a>社会公益</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide {
+            display: none;
+        }
+        .header {
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 500px;height: 500px;background: palegreen;">
+    <div class="item">
+        <div id='i1' class="header" onclick="menu('i1')">
+            <div>标题1</div>
+        </div>
+        <div class="body">
+            <div>内容1</div>
+            <div>内容1</div>
+            <div>内容1</div>
+        </div>
+    </div>
+    <div class="item">
+        <div id='i2' class="header" onclick="menu('i2')">
+            <div>标题2</div>
+        </div>
+        <div class="body">
+            <div>内容2</div>
+            <div>内容2</div>
+            <div>内容2</div>
+        </div>
+    </div>
+    <div class="item">
+        <div id='i3' class="header" onclick="menu('i3')">
+            <div>标题3</div>
+        </div>
+        <div class="body">
+            <div>内容3</div>
+            <div>内容3</div>
+            <div>内容3</div>
+        </div>
+    </div>
+    <script>
+        function menu(nid) {
+            var header = document.getElementById(nid);
+            var list = header.parentElement.parentElement.children;
+            for (var i=0;i<list.length;i++){
+                var item = list[i];
+                item.children[1].classList.add('hide');
+            body.nextElementSibling.classList.remove('hide');
+            }
+        }
+    </script>
+</div>
+
+</body>
+</html>

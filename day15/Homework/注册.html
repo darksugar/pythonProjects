@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人注册</title>
+    <style>
+        .pg-header{
+            background: url(image/headbg.jpg) repeat-x  bottom;
+        }
+        .pg-header .header{
+            margin:0 auto;
+            width:1100px;
+            height:106px;
+            line-height: 100px;
+        }
+        .pg-header .logo-img{
+            margin-top:20px;
+            float: left;
+        }
+        .pg-header .logo-text{
+            height: 34px;
+            font-size: 24px;
+            color: #333;
+            padding-left: 30px;
+            float: left;
+        }
+        .pg-header .have-account{
+            font-size: 16px;
+            float: right;
+            margin-top: 25px;
+            color: #999;
+        }
+        .pg-body .body{
+            margin: auto;
+            margin-top: 50px;
+            width:850px;
+            height:400px;
+        }
+        .pg-body .body .body-left {
+            width: 400px;
+            float: left;
+        }
+        .pg-body .body .body-left .input-username{
+            border:1px solid #bdbdbd;
+            width: 398px;
+            height:54px;
+        }
+        .pg-body .body .body-left .input-username .input-username-label{
+            float: left;
+            width: 90px;
+            height: 52px;
+            line-height: 52px;
+            padding-left: 20px;
+            color: #999;
+        }
+        .pg-body .body .body-left .input-username .input-username-text{
+            display: block;
+            float: left;
+            width: 200px;
+            height:28px;
+            border:0 none;
+            outline: 0;
+            padding-left:30px;
+            padding-top:12px;
+        }
+        .pg-body .body .body-left .input-password{
+            margin-top:30px;
+            border:1px solid #bdbdbd;
+            width: 398px;
+            height:54px;
+        }
+        .pg-body .body .body-left .input-password .input-password-label{
+            float: left;
+            width: 90px;
+            height: 52px;
+            line-height: 52px;
+            padding-left: 20px;
+            color: #999;
+        }
+        .pg-body .body .body-left .input-password .input-password-text{
+            display: block;
+            float: left;
+            width: 200px;
+            height:28px;
+            border:0 none;
+            outline: 0;
+            padding-left:30px;
+            padding-top:12px;
+        }
+        .pg-body .body .body-left .input-confirmpwd{
+            margin-top:30px;
+            border:1px solid #bdbdbd;
+            width: 398px;
+            height:54px;
+        }
+        .pg-body .body .body-left .input-confirmpwd .input-confirmpwd-label{
+            float: left;
+            width: 90px;
+            height: 52px;
+            line-height: 52px;
+            padding-left: 20px;
+            color: #999;
+        }
+        .pg-body .body .body-left .input-confirmpwd .input-confirmpwd-text{
+            display: block;
+            float: left;
+            width: 200px;
+            height:28px;
+            border:0 none;
+            outline: 0;
+            padding-left:30px;
+            padding-top:12px;
+        }
+        .pg-body .body .body-left .input-confirm{
+            margin-top:30px;
+            border:1px solid #bdbdbd;
+            width: 398px;
+            height:54px;
+        }
+        .pg-body .body .body-left .input-confirm .input-confirm-label{
+            float: left;
+            width: 90px;
+            height: 52px;
+            line-height: 52px;
+            padding-left: 20px;
+            color: #999;
+        }
+        .pg-body .body .body-left .input-confirm .input-confirm-text{
+            display: block;
+            float: left;
+            width: 100px;
+            height:28px;
+            border:0 none;
+            outline: 0;
+            padding-left:30px;
+            padding-top:12px;
+        }
+        .pg-body .body .body-left .confirm-buttion{
+            margin-top:30px;
+            background-color: #a51823;
+            width: 398px;
+            height:54px;
+            line-height:54px;
+            text-align: center;
+
+        }
+        .pg-body .body .body-left .confirm-buttion .jump{
+            color: white;
+            text-decoration: none;
+        }
+        .pg-body .body .body-right {
+            width:400px;
+            height:400px;
+            float: right;
+            border-left:1px solid gray;
+        }
+        .pg-body .body .body-right .regist-qq{
+            margin:auto;
+            width:160px;
+            height:30px;
+            /*border:1px solid gray;*/
+         }
+        .pg-body .body .body-right .regist-weixin{
+            margin:auto;
+            margin-top:30px;
+            width:160px;
+            height:30px;
+            /*border:1px solid gray;*/
+         }
+        .pg-foot{
+            margin: 0 auto;
+        }
+        .foot{
+            width:980px;
+            height:50px;
+            line-height: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="pg-header">
+        <div class="header">
+            <img class="logo-img" src="image/logo.png" >
+            <div class="logo-text"> 欢迎注册 </div>
+            <div class="have-account">
+                已有账号？
+                <a href="登陆.html" style="text-decoration: none;color: black;">请登录</a>
+            </div>
+        </div>
+    </div>
+    <div class="pg-body">
+        <div class="body">
+            <div class="body-left">
+                <div class="input-username">
+                    <label class="input-username-label">用 户 名</label>
+                    <input class="input-username-text" type="text"/>
+                </div>
+                <div class="input-password">
+                    <label class="input-password-label">设 置 密 码</label>
+                    <input class="input-password-text" type="text"/>
+                </div>
+                <div class="input-confirmpwd">
+                    <label class="input-confirmpwd-label">确 认 密 码</label>
+                    <input class="input-confirmpwd-text" type="text"/>
+                </div>
+                <div class="input-confirm">
+                    <label class="input-confirm-label">验 证 码</label>
+                    <input class="input-confirm-text" maxlength="6" type="text"/>
+                    <img src="image/confirm.jpg" style="float: right;height: 54px;width: 120px;" />
+                </div>
+                <div class="confirm-buttion">
+                    <a class="jump" href="登陆.html">立 即 注 册</a>
+                </div>
+            </div>
+            <div class="body-right">
+                <div class="regist-qq">
+                    <a>QQ 注 册</a>
+                </div>
+                <div class="regist-weixin">
+                    <a>微信 注 册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pg-foot">
+    <div class="foot">
+        <a >关于我们</a> |
+        <a>联系我们</a>  |
+        <a>人才招聘</a>  |
+        <a>广告服务</a>  |
+        <a>商家入驻</a>  |
+        <a>社会公益</a>
+    </div>
+</body>
+</html>
