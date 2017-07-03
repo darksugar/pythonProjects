@@ -105,6 +105,39 @@
             margin-right:10px;
             margin-bottom:10px;
         }
+        .new-host-background{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: gray;
+            opacity: 0.6;
+            z-index: 9;
+        }
+        .new-host-grid{
+            width:450px;
+            height:450px;
+            position: fixed;
+            top:150px;
+            left:50%;
+            right:50%;
+            z-index: 10;
+            margin-left:-225px;
+            background-color: white;
+        }
+        .text-grid{
+            margin-top:60px;
+            margin-left:40px;
+        }
+        .text-label{
+            display: inline-block;
+            width:100px;
+        }
+        .host_button{
+            margin-top: 80px;
+            margin-left: 150px;
+        }
     </style>
 </head>
 <body>
@@ -213,6 +246,29 @@
         </div>
     </div>
 </div>
+<div id="zhezhaoceng" class="new-host-background hide"></div>
+<div id="tanchukuang" class="new-host-grid hide">
+        <div class="text-grid">
+            <label class="text-label">主机名：</label>
+            <input class="text" type="text"/>
+        </div>
+        <div class="text-grid">
+            <label class="text-label">IP地址：</label>
+            <input class="text" type="text"/>
+        </div>
+        <div class="text-grid">
+            <label class="text-label">位 置：</label>
+            <input class="text" type="text"/>
+        </div>
+        <div class="text-grid">
+            <label class="text-label">用 途：</label>
+            <input class="text" type="text"/>
+        </div>
+        <div class="host_button">
+            <input onclick="cancel_Host()" type="button" value="确认" />
+            <input onclick="cancel_Host()" type="button" value="取消" />
+        </div>
+</div>
 <div onclick="gotop()" class="go-top">
     GO TOP
 </div>
@@ -266,7 +322,12 @@
         }
     }
     function new_Host() {
-
+        document.getElementById('zhezhaoceng').classList.remove('hide');
+        document.getElementById('tanchukuang').classList.remove('hide');
+    }
+    function cancel_Host() {
+        document.getElementById('zhezhaoceng').classList.add('hide');
+        document.getElementById('tanchukuang').classList.add('hide');
     }
     function gotop() {
         document.body.scrollTop = 0;
