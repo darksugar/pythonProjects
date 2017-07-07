@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .pg-header{
+            position: relative;
+            width:200px;
+            height:100px;
+        }
+        .a{
+            width:200px;
+            height:100px;
+            background: url(1.jpg) no-repeat;
+
+        }
+        .b{
+            position: absolute;
+            top:100px;
+            left:100px;
+            display: none;
+            width:80px;
+            background-color: #e20052;
+        }
+        .pg-header:hover .b{
+            display: block;
+        }
+    </style>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
+</head>
+<body>
+    <div class="pg-header">
+        <div class="a"></div>
+        <div class="b">
+            <a>我的资料</a>
+            <a>注销登陆</a>
+        </div>
+    </div>
+</body>
+</html>
