@@ -7,7 +7,6 @@ import os
 import time
 __author__ = 'Ivor'
 
-
 class FTPClient(object):
     def __init__(self):
         parser = optparse.OptionParser()
