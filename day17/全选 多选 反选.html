@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="button" value="全选" onclick="selectAll()">
+<input type="button" value="取消" onclick="cancelAll()">
+<input type="button" value="反选" onclick="reverseAll()">
+<table border="1">
+    <thead>
+    <tr>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+    </tr>
+    </thead>
+    <tr>
+        <td><input type="checkbox"/></td>
+        <td>1.1.1.1</td>
+        <td>80</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"/></td>
+        <td>1.1.1.1</td>
+        <td>80</td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"/></td>
+        <td>1.1.1.1</td>
+        <td>80</td>
+    </tr>
+</table>
+
+<script src="jquery-1.12.4.js"></script>
+<script>
+    function selectAll() {
+        $(":checkbox").prop("checked", true);
+    }
+    function cancelAll() {
+        $(":checkbox").prop("checked", false);
+    }
+    //        通过Dom对象实现
+    //        function reverseAll() {
+    //            $(":checkbox").each(function () {
+    //                if(this.checked){
+    //                    this.checked=false;
+    //                }
+    //                else {
+    //                    this.checked = true;
+    //                }
+    //            })}
+    //        通过jQuery对象实现
+    //    function reverseAll() {
+    //        $(":checkbox").each(function () {
+    //                if ($(this).prop('checked')) {
+    //                    $(this).prop('checked', false);
+    //                }
+    //                else {
+    //                    $(this).prop('checked', true);
+    //                }
+    //            }
+    //        )
+    //    }
+    function reverseAll() {
+        $(":checkbox").each(function () {
+                var v = !$(this).prop("checked");
+//                var v = $(this).prop("checked")?false:true;
+                $(this).prop("checked", v);
+            }
+        )
+    }
+</script>
+</body>
+</html>
