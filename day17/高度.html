@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hhh{
+            height:200px;
+            padding:10px;
+            border:2px solid gray;
+            margin:5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="hhh"></div>
+    <script src="jquery-1.12.4.js"></script>
+    <script>
+        var h1 = $('.hhh').height();
+        var h2 = $('.hhh').innerHeight();
+        var h3 = $('.hhh').outerHeight();
+        var h4 = $('.hhh').outerHeight(true);
+        console.log(h1,h2,h3,h4)
+    </script>
+</body>
+</html>
