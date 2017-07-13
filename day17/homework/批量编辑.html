@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input {
+            display: inline-block;
+            width: 80px;
+        }
+        .menu {
+            margin: 0 auto;
+            width: 500px;
+            height: 38px;
+            line-height: 38px;
+        }
+        .button {
+            float: left;
+            width: 50px;
+            height: 28px;
+            margin: 0 10px;
+            margin-top: 6px;
+        }
+        .edit {
+            float: right;
+            display: inline-block;
+            width: 120px;
+            height: 35px;
+            margin-top: 1px;
+            margin-right: 5px;
+            text-align: center;
+            background: #dddddd;
+            cursor: pointer;
+        }
+        .editing {
+            background: #d84040;
+        }
+        .main {
+            margin: 0 auto;
+            width: 500px;
+            height: 500px;
+            background: #dddddd;
+        }
+        .tb td {
+            min-width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="menu">
+    <input class="button" type="button" value="全选">
+    <input class="button" type="button" value="反选">
+    <input class="button" type="button" value="取消">
+    <span class="edit">进入编辑模式</span>
+</div>
+<div class="main">
+    <table class="tb" border="1">
+        <thead>
+        <tr>
+            <th>选择</th>
+            <th>IP地址</th>
+            <th>端口</th>
+            <th>是否在线</th>
+        </tr>
+        </thead>
+        <tr class="tr">
+            <td><input edit="true"   type="checkbox"/></td>
+            <td target="host">10.0.1.1</td>
+            <td target="port">8080</td>
+            <td target="online">在线</td>
+        </tr>
+        <tr class="tr">
+            <td><input edit="true" type="checkbox"/></td>
+            <td target="host">10.0.1.1</td>
+            <td target="port">8080</td>
+            <td target="online">下线</td>
+        </tr>
+        <tr class="tr">
+            <td><input edit="true" type="checkbox"/></td>
+            <td target="host">10.0.1.1</td>
+            <td target="port">8080</td>
+            <td target="online">在线</td>
+        </tr>
+    </table>
+</div>
+<script src="../jquery-1.12.4.js"></script>
+<script>
+    var button = $('.menu');
+    button.children('[value=全选]').click(function () {
+        var check_box = $(':checkbox');
+        check_box.each(function () {
+            if (!$(this).prop('checked')) {
+                $(this).prop('checked', true);
+                edit_now(this);
+            }
+        })
+    });
+    button.children('[value=取消]').click(function () {
+        var check_box = $(':checkbox');
+        check_box.prop('checked', false);
+        check_box.each(function () {
+            edit_now(this);
+        });
+    });
+    button.children('[value=反选]').click(function () {
+        var check_box = $(':checkbox');
+        check_box.each(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', false);
+            } else {
+                $(this).prop('checked', true);
+            }
+            edit_now(this);
+        })
+    });
+
+    $('.edit').click(function () {
+        if ($('.edit').hasClass('editing')) {
+            $('.edit').removeClass('editing');
+        } else {
+            $('.edit').addClass('editing');
+        }
+        $(':checkbox').each(function () {
+            edit_now(this);
+        })
+    });
+    $(':checkbox').click(function () {
+        edit_now(this);
+    });
+
+    function edit_now(self) {
+        if ($('.edit').hasClass('editing')){
+            if ($(self).prop('checked')) {
+                    var host_tag = $(self).parent().siblings('[target=host]');
+                    var host = host_tag.text();
+                    var host_edit = document.createElement('input');
+                    host_edit.setAttribute('value', host);
+                    host_tag.empty();
+                    host_tag.append(host_edit);
+                    var port_tag = $(self).parent().siblings('[target=port]');
+                    var port = port_tag.text();
+                    var port_edit = document.createElement('input');
+                    port_edit.setAttribute('value', port);
+                    port_tag.empty();
+                    port_tag.append(port_edit);
+                    var online_tag = $(self).parent().siblings('[target=online]');
+                    var online = online_tag.text();
+                    var online_edit = document.createElement('select');
+                    online_edit.innerHTML = "<option value='在线'>在线</option><option value='下线'>下线</option>"
+                    $(online_edit).children('[value="' + online + '"]').prop('selected', true);
+                    online_tag.empty();
+                    online_tag.append(online_edit)
+            }
+            else{
+                edit_end(self);
+            }
+        }
+        else {
+            edit_end(self);
+        }
+    }
+    function edit_end(self) {
+            var host_tag = $(self).parent().siblings('[target=host]');
+            var host = host_tag.children().val();
+            host_tag.text(host);
+            host_tag.children().remove();
+            var port_tag = $(self).parent().siblings('[target=port]');
+            var port = port_tag.children().val();
+            port_tag.text(port);
+            port_tag.children().remove();
+            var online_tag = $(self).parent().siblings('[target=online]');
+            var online = online_tag.children().children(':selected').val();
+            online_tag.text(online);
+            online_tag.children().remove();
+    }
+</script>
+</body>
+</html>
