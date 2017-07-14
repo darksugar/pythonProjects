@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .pg-body{
+            width:800px;
+            height:800px;
+            border-left:2px solid gray;
+            border-top:2px solid gray;
+            background-color: #dddddd;
+            margin:0 auto;
+        }
+        .zan{
+            position: relative;
+            border-right:2px solid gray;
+            border-bottom:2px solid gray;
+            float: left;
+            width:398px;
+            height:400px;
+            line-height:400px;
+            text-align: center;
+            font-size:26px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="pg-body">
+        <div class="zan">
+            <span class="item">赞</span>
+        </div>
+        <div class="zan">
+            <span class="item">赞</span>
+        </div>
+        <div class="zan">
+            <span class="item">赞</span>
+        </div>
+        <div class="zan">
+            <span class="item">赞</span>
+        </div>
+    </div>
+    <script src="jquery-1.12.4.js"></script>
+    <script>
+        $('.zan').click(function () {
+           addFavor(this);
+        });
+        function addFavor(self) {
+            var tag = document.createElement('span');
+            tag.innerText = '+1';
+            var font_size = 16;
+            var top = -10;
+            var right = 165;
+            var opacity = 1;
+            $(tag).css('fontSize',font_size + 'px');
+            $(tag).css('color','green');
+            $(tag).css('position','absolute');
+            $(tag).css('top',top + 'px');
+            $(tag).css('right',right + 'px');
+            $(tag).css('opacity',opacity);
+            $(self).append(tag);
+
+            var obj = setInterval(function () {
+                font_size = font_size + 10;
+                top =  top - 10;
+                right = right - 15;
+                opacity = opacity - 0.1;
+
+                $(tag).css('fontSize',font_size + 'px');
+                $(tag).css('color','green');
+                $(tag).css('position','absolute');
+                $(tag).css('top',top + 'px');
+                $(tag).css('right',right + 'px');
+                $(tag).css('opacity',opacity);
+
+                if (font_size>150){
+                    clearInterval(obj);
+                    $(tag).remove();
+                }
+            },50)
+        }
+    </script>
+</body>
+</html>
